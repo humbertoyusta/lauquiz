@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('author_id')->references('id')->on('users')->nullable();
-            $table->foreignId('correct_answer_id')->nullable();
             $table->timestamps();
         });
     }
