@@ -47,3 +47,9 @@ First sure you have php and composer installed
 ```bash
   ./vendor/bin/sail artisan migrate:fresh --seed
 ```
+
+6. Generate app key
+
+```bash
+    sail artisan key:generate
+```
