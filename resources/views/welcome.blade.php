@@ -1,38 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Bootstrap css -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    </head>
-    <body class="antialiased">
-        
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand">
-                    <img src="/images/picwish.png" alt="Logo" width="120" height="36" class="d-inline-block align-text-top">
-                </a>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Welcome</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/quizzes">Quizzes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/play">Play</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    </body>
-</html>
+<x-site-layout>
+    <div class="card m-auto mt-5" style="width: 30rem;">
+        <img src="/images/picwish.png" class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text">Making simple quizzes has never been so easy.</p>
+            <a href="/quizzes" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+</x-site-layout>
