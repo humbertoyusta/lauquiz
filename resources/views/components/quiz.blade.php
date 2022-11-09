@@ -4,13 +4,13 @@
     </div>
     <div class="d-flex justify-content-between" style="width: 10em;">
         <a href="{{ route('quizzes-show', ['id' => $quiz['id']]) }}" method="GET">
-            <button type="button" class="btn btn-primary">Edit</button>
+            <button type="button" class="btn btn-outline-primary">Edit</button>
         </a>
         <div>
             <form action="{{ route('quizzes-delete', ['id' => $quiz['id']]) }}" method="POST">
                 @method('DELETE')
                 @csrf
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
             </form>
         </div>
     <div>
