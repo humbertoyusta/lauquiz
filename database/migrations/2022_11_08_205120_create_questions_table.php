@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quiz_id')->references('id')->on('quizzes');
+            $table->foreignId('quiz_id');
             $table->text('content');
             $table->timestamps();
         });
