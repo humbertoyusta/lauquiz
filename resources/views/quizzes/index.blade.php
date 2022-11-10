@@ -25,4 +25,10 @@
             </ol>
         </div>
     </div>
+
+    @if(isset($message))
+        <div class="alert alert-success" role="alert">
+            {{$message}}
+        </div>
+    @endif
 </x-site-layout>

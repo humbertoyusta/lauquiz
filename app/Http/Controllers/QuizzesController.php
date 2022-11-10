@@ -90,8 +90,10 @@ class QuizzesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $this->quizzesService->delete($id);
+
+        return view('quizzes.index', ['message' => 'Deleted succesfully']);
     }
 }
