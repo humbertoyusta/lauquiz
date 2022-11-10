@@ -18,4 +18,14 @@ class Question extends Model
         'quiz_id',
         'content',
     ];
+
+    public function quiz ()
+    {
+        return $this->belongsTo(Quiz::class);
+    }
+
+    public function answers ()
+    {
+        return $this->hasMany(Answer::class);
+    }
 }
