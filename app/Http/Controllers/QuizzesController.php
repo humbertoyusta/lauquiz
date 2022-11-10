@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
 {
+    /**
+     * Injecting the Service to handle the business logic
+     */
     public function __construct(
         public QuizzesService $quizzesService,
     )
@@ -19,7 +22,7 @@ class QuizzesController extends Controller
      */
     public function index()
     {
-        return view('quizzes', ['quizzes' => $this->quizzesService->get()]);
+        return view('quizzes.index', ['quizzes' => $this->quizzesService->get()]);
     }
 
     /**
@@ -29,7 +32,7 @@ class QuizzesController extends Controller
      */
     public function create()
     {
-        //
+        return view('quizzes.create');
     }
 
     /**
@@ -49,9 +52,9 @@ class QuizzesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        return "To Be Done";
     }
 
     /**
