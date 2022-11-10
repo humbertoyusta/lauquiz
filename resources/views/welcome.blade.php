@@ -1,4 +1,5 @@
 <x-site-layout>
+    @ray('Hello')
     <div class="card m-auto mt-5" style="width: 30rem;">
         <img src="/images/picwish.png" class="card-img-top" alt="...">
         <div class="card-body">
