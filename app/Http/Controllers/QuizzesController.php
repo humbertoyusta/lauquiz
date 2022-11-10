@@ -43,7 +43,11 @@ class QuizzesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dto = $request->validate(['title' => 'required|max:255']);
+
+        $quiz = $this->quizzesService->save($dto);
+
+        return view('quizzes.edit', ['quiz' => $quiz]);
     }
 
     /**
@@ -65,7 +69,7 @@ class QuizzesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return "To Be Done";
     }
 
     /**

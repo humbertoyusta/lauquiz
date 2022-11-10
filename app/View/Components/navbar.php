@@ -18,11 +18,15 @@ class navbar extends Component
         $this->navbarItems = [
             [
                 'title' => 'Welcome',
-                'url' => '/',
+                'url' => route('welcome'),
             ],
             [
                 'title' => 'Quizzes',
-                'url' => 'quizzes',
+                'url' => route('quizzes.index'),
+            ],
+            [
+                'title' => 'Create new quiz',
+                'url' => route('quizzes.create'),
             ],
             [
                 'title' => 'Play',
