@@ -20,9 +20,12 @@ class QuizzesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('quizzes.index', ['quizzes' => $this->quizzesService->get()]);
+        return view('quizzes.index', [
+            'quizzes' => $this->quizzesService->get(), 
+            'alertMessage' => $request->query('alertMessage'),
+        ]);
     }
 
     /**
@@ -94,6 +97,6 @@ class QuizzesController extends Controller
     {
         $this->quizzesService->delete($id);
 
-        return view('quizzes.index', ['message' => 'Deleted succesfully']);
+        return redirect(route('quizzes.index', ['alertMessage' => 'Deleted succesfully']));
     }
 }

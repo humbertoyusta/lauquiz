@@ -26,9 +26,9 @@
         </div>
     </div>
 
-    @if(isset($message))
-        <div class="alert alert-success" role="alert">
-            {{$message}}
+    @if($alertMessage)
+        <div class="alert alert-success fixed-bottom m-5" role="alert">
+            {{$alertMessage}}
         </div>
     @endif
 </x-site-layout>
