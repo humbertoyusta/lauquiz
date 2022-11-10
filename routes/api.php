@@ -17,9 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('quizzes', function() {})->name('quizzes-create');
-
-Route::put('quizzes/{id}', function() {})->name('quizzes-edit');
-
-Route::delete('/quizzes/{id}', function() {})->name('quizzes-delete');
