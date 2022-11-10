@@ -31,7 +31,7 @@ abstract class AbstractService implements ServiceInterface
 
     public function save (array $values) {
         $entity = null;
-        if ($values['id'] == 0)
+        if (!array_key_exists('id', $values) || $values['id'] == 0)
         {
             $entity = $this->className::create($values);
         }

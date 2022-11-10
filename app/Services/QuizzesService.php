@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class QuizService extends AbstractService {
+class QuizzesService extends AbstractService {
     public function __construct()
     {
         parent::__construct('\App\Models\Quiz');
