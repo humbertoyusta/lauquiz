@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('author_id')->references('id')->on('users')->nullable();
+            $table->foreignId('author_id')->nullable();
             $table->timestamps();
         });
     }
