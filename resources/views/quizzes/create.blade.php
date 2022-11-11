@@ -6,6 +6,13 @@
                 <input type="text" class="form-control" id="title" name="title" placeholder="title">
                 <label for="title">Title</label>
             </div>
+            @error('title')
+                <div class="alert alert-danger" role="alert">
+                    @foreach($errors->get('title') as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @enderror
             <button type="submit" class="btn btn-outline-primary">
                 Create
             </button>
