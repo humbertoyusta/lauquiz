@@ -4,13 +4,10 @@
         <div class="card-body">
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
-                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2">
-                            <div class="fw-bold">{{ $quiz['title'] }}</div>
-                        </div>
+                    <x-bar :text="$quiz['title']">
                         <x-get-button :route="route('quizzes.edit', ['quiz' => $quiz['id']])" name="Edit" />
                         <x-delete-button :route="route('quizzes.destroy', ['quiz' => $quiz['id']])" />
-                    </li>
+                    </x-bar>
                 @endforeach
             </ol>
         </div>
