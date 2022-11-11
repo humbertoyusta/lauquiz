@@ -61,7 +61,9 @@ class QuizzesController extends Controller
      */
     public function show(int $id)
     {
-        return "To Be Done";
+        return view('quizzes.show', [
+            'quiz' => $this->quizzesService->getQuizwithQuestionsAndAnswers($id),
+        ]);
     }
 
     /**
@@ -72,7 +74,9 @@ class QuizzesController extends Controller
      */
     public function edit($id)
     {
-        return "To Be Done";
+        return view('quizzes.edit', [
+            'quiz' => $this->quizzesService->getQuizwithQuestionsAndAnswers($id),
+        ]);
     }
 
     /**
