@@ -8,18 +8,8 @@
                         <div class="ms-2">
                             <div class="fw-bold">{{ $quiz['title'] }}</div>
                         </div>
-                        <div class="d-flex justify-content-between" style="width: 10em;">
-                            <a href="{{ route('quizzes.show', ['quiz' => $quiz['id']]) }}" method="GET">
-                                <button type="button" class="btn btn-outline-primary">Edit</button>
-                            </a>
-                            <div>
-                                <form action="{{ route('quizzes.destroy', ['quiz' => $quiz['id']]) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
-                                </form>
-                            </div>
-                        <div>
+                        <x-get-button :route="route('quizzes.edit', ['quiz' => $quiz['id']])" name="Edit" />
+                        <x-delete-button :route="route('quizzes.destroy', ['quiz' => $quiz['id']])" />
                     </li>
                 @endforeach
             </ol>
