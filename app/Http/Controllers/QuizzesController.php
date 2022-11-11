@@ -12,8 +12,8 @@ class QuizzesController extends Controller
      */
     public function __construct(
         public QuizzesService $quizzesService,
-    )
-    {}
+    ) {
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class QuizzesController extends Controller
     public function index(Request $request)
     {
         return view('quizzes.index', [
-            'quizzes' => $this->quizzesService->get(), 
+            'quizzes' => $this->quizzesService->get(),
             'alertMessage' => $request->query('alertMessage'),
         ]);
     }

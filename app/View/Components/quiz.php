@@ -14,8 +14,8 @@ class quiz extends Component
      */
     public function __construct(
         public QuizModel $quiz,
-    )
-    {}
+    ) {
+    }
 
     /**
      * Get the view / contents that represent the component.

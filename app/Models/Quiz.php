@@ -20,12 +20,12 @@ class Quiz extends Model
         'correct_answer_id',
     ];
 
-    public function author ()
+    public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function questions ()
+    public function questions()
     {
         return $this->hasMany(Question::class);
     }

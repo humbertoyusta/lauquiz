@@ -19,12 +19,12 @@ class Question extends Model
         'content',
     ];
 
-    public function quiz ()
+    public function quiz()
     {
         return $this->belongsTo(Quiz::class);
     }
 
-    public function answers ()
+    public function answers()
     {
         return $this->hasMany(Answer::class);
     }

@@ -19,7 +19,7 @@ class Answer extends Model
         'content',
     ];
 
-    public function question ()
+    public function question()
     {
         return $this->belongsTo(Question::class);
     }
