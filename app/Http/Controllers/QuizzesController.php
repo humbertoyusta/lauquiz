@@ -86,9 +86,15 @@ class QuizzesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $dto = $request->validate(['title' => 'required|max:255']);
+
+        $dto['id'] = $id;
+
+        $quiz = $this->quizzesService->save($dto);
+
+        return view('quizzes.edit', ['quiz' => $quiz]);
     }
 
     /**

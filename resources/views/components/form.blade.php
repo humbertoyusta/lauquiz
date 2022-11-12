@@ -1,12 +1,12 @@
-@props(['route', 'method'])
+@props(['route', 'method', 'button_name'])
 
-<form action="{{$route}}" method="{{$method}}" class="m-4">
+<form action="{{$route}}" method="POST" class="m-4">
     @method($method)
     @csrf
 
     {{$slot}}
-    
+
     <button type="submit" class="btn btn-outline-primary">
-        Create
+        {{$button_name}}
     </button>
 </form>
