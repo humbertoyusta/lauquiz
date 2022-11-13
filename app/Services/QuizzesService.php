@@ -6,9 +6,7 @@ use App\Models\Quiz;
 
 class QuizzesService extends AbstractService
 {
-    public function __construct(
-        public QuestionService $questionService,
-    ) {
+    public function __construct() {
         parent::__construct('\App\Models\Quiz');
     }
 
