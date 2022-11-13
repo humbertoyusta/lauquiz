@@ -7,22 +7,12 @@
         </x-form>
         <ol class="list-group mt-5">
             @foreach($question->answers as $answer)
-                <li class="list-group-item">
-                    <x-form :route="route('answers.update', ['answer' => $answer->id])" method="PUT" button_name="Edit Answer">
-                        <input type="hidden" name="question_id" value="{{$question->id}}" />
-                        <x-form-input-text name="content" :errors="$errors" value="{{$answer->content}}"></x-form-input-text>
-                    </x-form>
-                    <div class="mt-2"> 
+                <x-bar :text="$answer->content">
+                        <x-get-button :route="route('answers.edit', ['answer' => $answer->id])" name="Edit" />
                         <x-delete-button :route="route('answers.destroy', ['answer' => $answer->id])" />
-                    </div>
-                </li>
+                </x-bar>
             @endforeach
-            <li class="list-group-item">
-                <x-form :route="route('answers.store')" method="POST" button_name="Add new Answer">
-                    <input type="hidden" name="question_id" value="{{$question->id}}" />
-                    <x-form-input-text name="content" :errors="$errors" value=""></x-form-input-text>
-                </x-form>
-            </li>
+            <x-get-button :route="route('answers.create', ['question_id' => $question->id])" name="Add new answer" />
         </ol>
         <div class="mt-4">
             <x-get-button route="{{route('quizzes.edit', ['quiz' => $question['quiz_id']])}}" name="Done" />

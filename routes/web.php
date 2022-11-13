@@ -23,4 +23,4 @@ Route::resource('quizzes', QuizzesController::class);
 
 Route::resource('questions', QuestionsController::class)->except(['index']);
 
-Route::resource('answers', AnswersController::class)->only(['store', 'update', 'destroy']);
+Route::resource('answers', AnswersController::class)->except(['index', 'show']);

@@ -18,6 +18,17 @@ class AnswersController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create (Request $request)
+    {
+        return view('answers.create', ['question_id' => $request->get('question_id')]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -38,6 +49,19 @@ class AnswersController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(int $id)
+    {
+        return view('answers.edit', [
+            'answer' => $this->answersService->get($id),
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -48,7 +72,6 @@ class AnswersController extends Controller
     {
         $dto = $request->validate([
             'content' => 'required',
-            'question_id' => 'required',
         ]);
 
         $dto['id'] = $id;
