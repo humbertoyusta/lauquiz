@@ -2,40 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\QuestionsService;
 use App\Services\QuizzesService;
 use Illuminate\Http\Request;
 
-class QuizzesController extends Controller
+class QuestionsController extends Controller
 {
     /**
      * Injecting the Service to handle the business logic
      */
     public function __construct(
+        private QuestionsService $questionsService,
         private QuizzesService $quizzesService,
     ) {
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        return view('quizzes.index', [
-            'quizzes' => $this->quizzesService->get(),
-            'alertMessage' => $request->query('alertMessage'),
-        ]);
-    }
-
-    /**
      * Show the form for creating a new resource.
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('quizzes.create');
+        return view('questions.create', ['quiz_id' => $request->get('quiz_id')]);
     }
 
     /**
@@ -46,11 +36,16 @@ class QuizzesController extends Controller
      */
     public function store(Request $request)
     {
-        $dto = $request->validate(['title' => 'required|max:255']);
+        $dto = $request->validate([
+            'content' => 'required',
+            'quiz_id' => 'required|integer|min:1',
+        ]);
 
-        $quiz = $this->quizzesService->save($dto);
+        $question = $this->questionsService->save($dto);
 
-        return view('quizzes.edit', ['quiz' => $quiz]);
+        return view('questions.edit', [
+            'question' => $this->questionsService->getQuestionWithAnswers($question->id),
+        ]);
     }
 
     /**
@@ -59,11 +54,9 @@ class QuizzesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
-        return view('quizzes.show', [
-            'quiz' => $this->quizzesService->getQuizwithQuestions($id),
-        ]);
+        //
     }
 
     /**
@@ -72,10 +65,10 @@ class QuizzesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        return view('quizzes.edit', [
-            'quiz' => $this->quizzesService->getQuizwithQuestions($id),
+        return view('questions.edit', [
+            'question' => $this->questionsService->getQuestionWithAnswers($id),
         ]);
     }
 
@@ -88,13 +81,13 @@ class QuizzesController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $dto = $request->validate(['title' => 'required|max:255']);
+        $dto = $request->validate(['content' => 'required']);
 
         $dto['id'] = $id;
 
-        $this->quizzesService->save($dto);
+        $this->questionsService->save($dto);
 
-        return view('quizzes.edit', ['quiz' => $this->quizzesService->getQuizwithQuestions($id)]);
+        return view('questions.edit', ['question' => $this->questionsService->getQuestionWithAnswers($id)]);
     }
 
     /**
@@ -105,8 +98,15 @@ class QuizzesController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->quizzesService->delete($id);
+        $question = $this->questionsService->get($id);
 
-        return redirect(route('quizzes.index', ['alertMessage' => 'Deleted succesfully']));
+        $quiz = $this->quizzesService->getQuizwithQuestions($question->quiz_id);
+
+        $this->questionsService->delete($id);
+
+        return redirect(route('quizzes.edit', [
+            'quiz' => $quiz,
+            'alertMessage' => 'Deleted succesfully',
+        ]));
     }
 }
