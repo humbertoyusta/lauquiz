@@ -11,7 +11,7 @@ class QuizzesController extends Controller
      * Injecting the Service to handle the business logic
      */
     public function __construct(
-        public QuizzesService $quizzesService,
+        private QuizzesService $quizzesService,
     ) {
     }
 
@@ -62,7 +62,7 @@ class QuizzesController extends Controller
     public function show(int $id)
     {
         return view('quizzes.show', [
-            'quiz' => $this->quizzesService->getQuizwithQuestionsAndAnswers($id),
+            'quiz' => $this->quizzesService->getQuizwithQuestions($id),
         ]);
     }
 
@@ -75,7 +75,7 @@ class QuizzesController extends Controller
     public function edit($id)
     {
         return view('quizzes.edit', [
-            'quiz' => $this->quizzesService->getQuizwithQuestionsAndAnswers($id),
+            'quiz' => $this->quizzesService->getQuizwithQuestions($id),
         ]);
     }
 
@@ -92,9 +92,9 @@ class QuizzesController extends Controller
 
         $dto['id'] = $id;
 
-        $quiz = $this->quizzesService->save($dto);
+        $this->quizzesService->save($dto);
 
-        return view('quizzes.edit', ['quiz' => $quiz]);
+        return view('quizzes.edit', ['quiz' => $this->quizzesService->getQuizwithQuestions($id)]);
     }
 
     /**

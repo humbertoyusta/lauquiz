@@ -14,4 +14,9 @@ class QuizzesService extends AbstractService
     {
         return Quiz::where('id', $id)->with(['questions' => ['answers']])->first();
     }
+
+    public function getQuizwithQuestions(int $id): Quiz
+    {
+        return Quiz::where('id', $id)->with(['questions'])->first();
+    }
 }
