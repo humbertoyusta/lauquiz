@@ -12,10 +12,4 @@
             </ol>
         </div>
     </div>
-
-    @if($alertMessage)
-        <div class="alert alert-success fixed-bottom m-5" role="alert">
-            {{$alertMessage}}
-        </div>
-    @endif
 </x-site-layout>
