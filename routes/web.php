@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuizzesController;
 use App\Http\Controllers\WelcomeController;
@@ -21,3 +22,5 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::resource('quizzes', QuizzesController::class);
 
 Route::resource('questions', QuestionsController::class)->except(['index']);
+
+Route::resource('answers', AnswersController::class)->except(['index', 'show']);

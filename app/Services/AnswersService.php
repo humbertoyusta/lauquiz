@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class QuizService extends AbstractService
+class AnswersService extends AbstractService
 {
     public function __construct()
     {
