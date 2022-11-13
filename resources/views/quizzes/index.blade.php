@@ -6,7 +6,7 @@
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
                     <x-bar :text="$quiz['title']">
-                        <x-get-button :route="route('quizzes.edit', ['quiz' => $quiz['id']])" name="Edit" />
+                        <x-get-button :route="route('quizzes.edit', ['quiz' => $quiz['id']])" name="Edit Quiz" />
                         <x-delete-button :route="route('quizzes.destroy', ['quiz' => $quiz['id']])" />
                     </x-bar>
                 @endforeach

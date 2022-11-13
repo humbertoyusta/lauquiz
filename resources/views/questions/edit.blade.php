@@ -8,11 +8,11 @@
         <ol class="list-group mt-5">
             @foreach($question->answers as $answer)
                 <x-bar :text="$answer->content">
-                        <x-get-button :route="route('answers.edit', ['answer' => $answer->id])" name="Edit" />
+                        <x-get-button :route="route('answers.edit', ['answer' => $answer->id])" name="Edit Answer" />
                         <x-delete-button :route="route('answers.destroy', ['answer' => $answer->id])" />
                 </x-bar>
             @endforeach
-            <x-get-button :route="route('answers.create', ['question_id' => $question->id])" name="Add new answer" />
+            <x-get-button :route="route('answers.create', ['question_id' => $question->id])" name="Add new Answer" />
         </ol>
         <div class="mt-4">
             <x-get-button route="{{route('quizzes.edit', ['quiz' => $question['quiz_id']])}}" name="Done" />
