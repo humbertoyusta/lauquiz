@@ -1,6 +1,6 @@
 <x-site-layout>
     <x-page-title title="Edit a Quiz" />
-    <div class="card m-auto mt-5" style="width: 50rem;">
+    <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
         <x-form route="{{route('quizzes.update', ['quiz' => $quiz['id']])}}" method="PUT" button_name="Edit">
             @csrf
             <x-form-input-text name="title" :errors="$errors" :value="$quiz['title']" />
@@ -14,5 +14,8 @@
             @endforeach
             <x-get-button :route="route('questions.create', ['quiz_id' => $quiz['id']])" name="Add new question" />
         </ol>
+        <div class="mt-4">
+            <x-get-button route="{{route('quizzes.index')}}" name="Done" />
+        </div>
     </div>
 </x-site-layout>
