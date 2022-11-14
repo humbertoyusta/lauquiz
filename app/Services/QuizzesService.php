@@ -7,7 +7,12 @@ use App\Models\Quiz;
 class QuizzesService extends AbstractService
 {
     public function __construct() {
-        parent::__construct('\App\Models\Quiz');
+        parent::__construct(
+            '\App\Models\Quiz',
+            [
+                'title' => 'required|max:255',
+            ],
+        );
     }
 
     public function getQuizwithQuestionsAndAnswers(int $id): Quiz
