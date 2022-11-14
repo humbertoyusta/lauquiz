@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use App\Services\Interfaces\ServiceInterface;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 abstract class AbstractService implements ServiceInterface
 {
     protected $className = '';
+    protected $validationRules = [];
 
-    public function __construct(string $className)
+    public function __construct(string $className, array $validationRules)
     {
         $this->className = $className;
+        $this->validationRules = $validationRules;
     }
 
     public function get(int $id = 0)
@@ -28,16 +31,17 @@ abstract class AbstractService implements ServiceInterface
         }
     }
 
-    public function save(array $values)
+    public function save(Request $request, int $id = 0)
     {
-        $entity = null;
-        if (! array_key_exists('id', $values) || $values['id'] == 0) {
-            $entity = $this->className::create($values);
-        } else {
-            $entity = $this->get($values['id']);
-            unset($values['id']);
+        $validated = $request->validate($this->validationRules);
 
-            $entity->update($values);
+        $entity = null;
+        if ($id == 0) {
+            $entity = $this->className::create($validated);
+        } else {
+            $entity = $this->get($id);
+
+            $entity->update($validated);
         }
 
         $entity->save();
