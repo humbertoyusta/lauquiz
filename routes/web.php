@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\PlayQuizController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuizzesController;
 use App\Http\Controllers\WelcomeController;
@@ -29,3 +30,8 @@ Route::prefix('quizzes/{quiz}')->group(function () {
     });
 });
 
+Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
+Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show');
+
+Route::get('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
+Route::post('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
