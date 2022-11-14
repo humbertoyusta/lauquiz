@@ -19,6 +19,7 @@ class AnswerFactory extends Factory
         return [
             'question_id' => rand(1, 10),
             'content' => fake()->text(),
+            'is_correct' => fake()->boolean(50),
         ];
     }
 }

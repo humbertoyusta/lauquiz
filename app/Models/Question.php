@@ -28,4 +28,9 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function correctAnswers()
+    {
+        return $this->hasMany(Answer::class)->where('is_correct', 1);
+    }
 }
