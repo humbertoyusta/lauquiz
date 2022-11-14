@@ -21,6 +21,11 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::resource('quizzes', QuizzesController::class);
 
-Route::resource('questions', QuestionsController::class)->except(['index']);
+Route::prefix('quizzes/{quiz}')->group(function () {
+    Route::resource('questions', QuestionsController::class)->except(['index']);
 
-Route::resource('answers', AnswersController::class)->except(['index', 'show']);
+    Route::prefix('questions/{question}')->group( function () {
+        Route::resource('answers', AnswersController::class)->except(['index', 'show']);
+    });
+});
+
