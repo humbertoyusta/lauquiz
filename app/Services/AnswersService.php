@@ -11,6 +11,7 @@ class AnswersService extends AbstractService
             [
                 'content' => 'required',
                 'question_id' => 'required|min:1|integer',
+                'is_correct' => 'required|boolean',
             ],
         );
     }

@@ -34,6 +34,7 @@ class AnswersController extends Controller
     public function store(Request $request, int $quiz, int $question)
     {
         $request->request->add(['question_id' => $question]);
+        $request->request->add(['is_correct' => $request->has('is_correct') ? true : false]);
 
         $answer = $this->answersService->save($request);
 
@@ -62,6 +63,7 @@ class AnswersController extends Controller
     public function update(Request $request, int $quiz, int $question, int $answer)
     {
         $request->request->add(['question_id' => $question]);
+        $request->request->add(['is_correct' => $request->has('is_correct') ? true : false]);
 
         $answer = $this->answersService->save($request, $answer);
 
