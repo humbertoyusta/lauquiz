@@ -36,12 +36,7 @@ class AnswersController extends Controller
      */
     public function store(Request $request)
     {
-        $dto = $request->validate([
-            'content' => 'required',
-            'question_id' => 'required|min:1|integer',
-        ]);
-
-        $answer = $this->answersService->save($dto);
+        $answer = $this->answersService->save($request);
 
         $question = $this->questionsService->getQuestionWithAnswers($answer->question_id);
 
@@ -70,13 +65,7 @@ class AnswersController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $dto = $request->validate([
-            'content' => 'required',
-        ]);
-
-        $dto['id'] = $id;
-
-        $answer = $this->answersService->save($dto);
+        $answer = $this->answersService->save($request, $id);
 
         $question = $this->questionsService->getQuestionWithAnswers($answer->question_id);
 
