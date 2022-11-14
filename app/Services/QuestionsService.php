@@ -21,4 +21,9 @@ class QuestionsService extends AbstractService
     {
         return Question::where('id', $id)->with('answers')->first();
     }
+
+    public function getNextQuestionWithAnswers (int $quizId, int $questionId)
+    {
+        return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->first();
+    }
 }
