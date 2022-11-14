@@ -23,9 +23,11 @@ class QuestionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(int $quiz)
     {
-        return view('questions.create', ['quiz_id' => $request->get('quiz_id')]);
+        return view('questions.create', [
+            'quiz_id' => $quiz,
+        ]);
     }
 
     /**
@@ -34,13 +36,16 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $quiz)
     {
+        $request->request->add(['quiz_id' => $quiz]);
+
         $question = $this->questionsService->save($request);
 
-        return view('questions.edit', [
-            'question' => $this->questionsService->getQuestionWithAnswers($question->id),
-        ]);
+        return redirect(route('questions.edit', [
+            'quiz' => $quiz,
+            'question' => $question->id,
+        ]));
     }
 
     /**
@@ -60,10 +65,11 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(int $quiz, int $question)
     {
         return view('questions.edit', [
-            'question' => $this->questionsService->getQuestionWithAnswers($id),
+            'quiz_id' => $quiz,
+            'question' => $this->questionsService->getQuestionWithAnswers($question),
         ]);
     }
 
@@ -74,15 +80,16 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $quiz, int $question)
     {
-        $dto = $request->validate(['content' => 'required']);
+        $request->request->add(['quiz_id' => $quiz]);
 
-        $dto['id'] = $id;
+        $this->questionsService->save($request, $question);
 
-        $this->questionsService->save($request, $id);
-
-        return view('questions.edit', ['question' => $this->questionsService->getQuestionWithAnswers($id)]);
+        return redirect(route('questions.edit', [
+            'quiz' => $quiz,
+            'question' => $question,
+        ]));
     }
 
     /**
@@ -91,16 +98,12 @@ class QuestionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(int $quiz, int $question)
     {
-        $question = $this->questionsService->get($id);
-
-        $quiz = $this->quizzesService->getQuizwithQuestions($question->quiz_id);
-
-        $this->questionsService->delete($id);
+        $this->questionsService->delete($question);
 
         return redirect(route('quizzes.edit', [
-            'quiz' => $quiz,
+            'quiz' => $this->quizzesService->getQuizwithQuestions($quiz),
             'alertMessage' => 'Deleted succesfully',
         ]));
     }
