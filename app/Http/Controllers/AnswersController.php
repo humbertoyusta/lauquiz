@@ -23,9 +23,12 @@ class AnswersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create (Request $request)
+    public function create (int $quiz, int $question)
     {
-        return view('answers.create', ['question_id' => $request->get('question_id')]);
+        return view('answers.create', [
+            'quiz_id' => $quiz,
+            'question_id' => $question,
+        ]);
     }
 
     /**
@@ -34,13 +37,17 @@ class AnswersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $quiz, int $question)
     {
+        $request->request->add(['question_id' => $question]);
+
         $answer = $this->answersService->save($request);
 
-        $question = $this->questionsService->getQuestionWithAnswers($answer->question_id);
-
-        return redirect(route('questions.edit', ['question' => $question]));
+        return redirect(route('questions.edit', [
+            'quiz' => $quiz, 
+            'question' => $question,
+            'answer' => $answer->id,
+        ]));
     }
 
     /**
@@ -49,10 +56,12 @@ class AnswersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(int $quiz, int $question, int $answer)
     {
         return view('answers.edit', [
-            'answer' => $this->answersService->get($id),
+            'quiz_id' => $quiz,
+            'question_id' => $question,
+            'answer' => $this->answersService->get($answer),
         ]);
     }
 
@@ -63,13 +72,16 @@ class AnswersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $quiz, int $question, int $answer)
     {
-        $answer = $this->answersService->save($request, $id);
+        $request->request->add(['question_id' => $question]);
 
-        $question = $this->questionsService->getQuestionWithAnswers($answer->question_id);
+        $answer = $this->answersService->save($request, $answer);
 
-        return redirect(route('questions.edit', ['question' => $question]));
+        return redirect(route('questions.edit', [
+            'quiz' => $quiz, 
+            'question' => $question,
+        ]));
     }
 
     /**
@@ -78,15 +90,12 @@ class AnswersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(int $quiz, int $question, int $answer)
     {
-        $answer = $this->answersService->get($id);
-
-        $this->answersService->delete($id);
-        
-        $question = $this->questionsService->getQuestionWithAnswers($answer->question_id);
+        $this->answersService->delete($answer);
 
         return redirect(route('questions.edit', [
+            'quiz' => $quiz,
             'question' => $question,
             'alertMessage' => 'Deleted succesfully',
         ])); 
