@@ -37,6 +37,6 @@ Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show'
 Route::get('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
 Route::post('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
 
-Route::middleware(['auth', 'admin'])->get('/users', [UsersController::class, 'index'])->name('users.index');
+Route::middleware(['auth', 'admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 
 require __DIR__.'/auth.php';
