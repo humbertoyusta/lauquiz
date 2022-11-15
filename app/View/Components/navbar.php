@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class navbar extends Component
@@ -33,6 +34,9 @@ class navbar extends Component
                 'url' => '/play',
             ],
         ];
+
+        if (Auth::user() && Auth::user()->is_admin)
+            $this->navbarItems[] = ['title' => 'users', 'url' => route('users.index')];
     }
 
     /**
