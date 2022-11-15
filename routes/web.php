@@ -4,6 +4,7 @@ use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\PlayQuizController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuizzesController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/', WelcomeController::class)->name('welcome');
 
 Route::resource('quizzes', QuizzesController::class);
 
@@ -35,3 +36,7 @@ Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show'
 
 Route::get('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
 Route::post('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
+
+Route::middleware(['auth', 'admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
+
+require __DIR__.'/auth.php';
