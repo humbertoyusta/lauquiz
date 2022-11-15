@@ -21,22 +21,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
-Route::resource('quizzes', QuizzesController::class);
-
-Route::prefix('quizzes/{quiz}')->group(function () {
-    Route::resource('questions', QuestionsController::class)->except(['index']);
-
-    Route::prefix('questions/{question}')->group( function () {
-        Route::resource('answers', AnswersController::class)->except(['index', 'show']);
+Route::middleware(['auth'])->group(function () {
+    
+    Route::resource('quizzes', QuizzesController::class);
+    
+    Route::prefix('quizzes/{quiz}')->group(function () {
+        Route::resource('questions', QuestionsController::class)->except(['index']);
+    
+        Route::prefix('questions/{question}')->group( function () {
+            Route::resource('answers', AnswersController::class)->except(['index', 'show']);
+        });
     });
+    
+    Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
+    Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show');
+    
+    Route::get('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
+    Route::post('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
+    
+    Route::middleware(['admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 });
-
-Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
-Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show');
-
-Route::get('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
-Route::post('play/{quiz}/questions/{question}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
-
-Route::middleware(['auth', 'admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 
 require __DIR__.'/auth.php';
