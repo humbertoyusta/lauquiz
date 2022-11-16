@@ -2,11 +2,6 @@
 # Lauquiz
 
 Simple quiz application, built in laravel in Mobile Web Application Course for Harbour Space University
-## Authors
-
-- [@humbertoyusta](https://www.github.com/humbertoyusta)
-
-
 ## Installation
 
 First sure you have php and composer installed
@@ -51,5 +46,16 @@ First sure you have php and composer installed
 6. Generate app key
 
 ```bash
-    sail artisan key:generate
+  ./vendor/bin/sail artisan key:generate
 ```
+
+7. 
+
+```bash
+  ./vendor/bin/sail npm run dev
+```
+
+## Authors
+
+- [@humbertoyusta](https://www.github.com/humbertoyusta)
+
