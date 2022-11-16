@@ -33,4 +33,9 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class)->where('is_correct', 1);
     }
+
+    public function answeredQuestions()
+    {
+        return $this->hasMany(AnsweredQuestion::class);
+    }
 }
