@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
     });
     
     Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
-    Route::get('play/{quiz}', [PlayQuizController::class, 'show'])->name('play.show');
+    Route::get('play/{quiz}/{answered_quiz}', [PlayQuizController::class, 'show'])->name('play.show');
     
     Route::get('play/{quiz}/questions/{question}/{answered_quiz?}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
     Route::post('play/{quiz}/questions/{question}/{answered_quiz?}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
