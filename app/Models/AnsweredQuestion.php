@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class AnsweredQuestion extends Model
 {
@@ -28,5 +29,19 @@ class AnsweredQuestion extends Model
     public function answer ()
     {
         return $this->belongsTo(Answer::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(
+            function ($answeredQuestion) {
+                if (!$answeredQuestion->answered_quiz_id) {
+                    $answeredQuestion->answered_quiz_id = AnsweredQuiz::create([
+                        'quiz_id' => $answeredQuestion->question->quiz_id,
+                        'user_id' => Auth::user()->id,
+                    ])->id;
+                }
+            }
+        );
     }
 }
