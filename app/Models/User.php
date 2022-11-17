@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\RegisterNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,5 +52,10 @@ class User extends Authenticatable
     public function answeredQuizzes()
     {
         return $this->hasMany(AnsweredQuiz::class);
+    }
+
+    protected static function booted()
+    {
+        static::created( fn($user) => $user->notify(new RegisterNotification) );
     }
 }
