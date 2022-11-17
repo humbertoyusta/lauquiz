@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnsweredQuestionsController;
 use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\PlayQuizController;
 use App\Http\Controllers\QuestionsController;
@@ -36,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
     Route::get('play/{quiz}/{answered_quiz}', [PlayQuizController::class, 'show'])->name('play.show');
     
-    Route::get('play/{quiz}/questions/{question}/{answered_quiz?}', [PlayQuizController::class, 'questionsShow'])->name('play.questions.show');
-    Route::post('play/{quiz}/questions/{question}/{answered_quiz?}', [PlayQuizController::class, 'questionsStore'])->name('play.questions.store');
+    Route::get('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'show'])->name('play.questions.show');
+    Route::post('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'store'])->name('play.questions.store');
     
     Route::middleware(['admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 });
