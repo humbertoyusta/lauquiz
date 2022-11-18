@@ -20,7 +20,7 @@ class QuizzesService extends AbstractService
 
     public function save (Request $request, int $id = 0)
     {
-        $request->request->add(['author_id' => Auth::user()->id]);
+        $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
         return parent::save($request, $id);
     }
