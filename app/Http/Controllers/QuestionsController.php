@@ -57,7 +57,7 @@ class QuestionsController extends Controller
     {
         return view('questions.edit', [
             'quiz_id' => $quiz,
-            'question' => $this->questionsService->getQuestionWithAnswers($question),
+            'question' => $this->questionsService->getQuestionWithAnswersAndImage($question),
         ]);
     }
 

@@ -23,10 +23,27 @@ class QuestionsService extends AbstractService
         $question = parent::save($request, $id);
 
         if ($request->has('image'))
+        {
             $question
-                ->addMedia($request->file('image'))
+                ->clearMediaCollection();
+
+            $question
+                ->addMediaFromRequest('image')
                 ->usingFileName($request->file('image')->hashName())
                 ->toMediaCollection();
+        }
+
+        return $question;
+    }
+
+    public function getQuestionWithAnswersAndImage (int $id)
+    {
+        $question = $this->getQuestionWithAnswers($id);
+
+        if ($question->getMedia()->first())
+            $question->image = $question->media->first()->getUrl('display');
+        else
+            $question->image = '/images/question-mark.png';
 
         return $question;
     }

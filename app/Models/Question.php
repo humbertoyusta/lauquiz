@@ -44,8 +44,8 @@ class Question extends Model implements HasMedia
         return $this->hasMany(AnsweredQuestion::class);
     }
 
-    public function registerMediaConversions(Media $media = null): void
-    {
+    public function registerMediaCollections(Media $media = null): void
+    {   
         $this
             ->addMediaConversion('display')
             ->fit(Manipulations::FIT_CROP, 512, 512)
