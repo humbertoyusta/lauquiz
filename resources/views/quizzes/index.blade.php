@@ -6,12 +6,21 @@
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
                     <x-bar :text="$quiz['title']">
+                        @if($quiz->is_draft)
+                            <x-badge text="Draft"></x-badge>
+                        @else
+                            <x-badge text="Playable"></x-badge>
+                        @endif
                         <x-get-button :route="route('quizzes.edit', ['quiz' => $quiz['id']])" name="Edit Quiz" />
                         <x-delete-button :route="route('quizzes.destroy', ['quiz' => $quiz['id']])" />
                     </x-bar>
                 @endforeach
             </ol>
             {{$quizzes->links('pagination::bootstrap-5')}}
+            <p class="mt-5">
+                Draft quizzes can not be played, at at least one question and one correct answer 
+                per question to the quiz to make it playable
+            </p>
         </div>
     </div>
 </x-site-layout>
