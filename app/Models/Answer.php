@@ -29,4 +29,9 @@ class Answer extends Model
     {
         return $this->hasMany(AnsweredQuestion::class);
     }
+
+    protected static function booted()
+    {
+        static::saved(fn($answer) => $answer->question->update([]));
+    }
 }

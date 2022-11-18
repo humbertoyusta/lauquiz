@@ -51,4 +51,9 @@ class Question extends Model implements HasMedia
             ->fit(Manipulations::FIT_CROP, 512, 512)
             ->nonQueued();
     }
+
+    protected static function booted()
+    {
+        static::saved(fn($question) => $question->quiz->update([]));
+    }
 }

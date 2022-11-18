@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\QuizSavingEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,10 @@ class Quiz extends Model
         'title',
         'author_id',
         'correct_answer_id',
+    ];
+
+    protected $dispatchesEvents = [
+        'saving' => QuizSavingEvent::class,
     ];
 
     public function author()
