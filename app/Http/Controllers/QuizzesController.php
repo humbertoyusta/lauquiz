@@ -23,7 +23,7 @@ class QuizzesController extends Controller
     public function index(Request $request)
     {
         return view('quizzes.index', [
-            'quizzes' => $this->quizzesService->paginate($this::PER_PAGE),
+            'quizzes' => $this->quizzesService->currentUserQuizzes($this::PER_PAGE),
             'alertMessage' => $request->query('alertMessage'),
         ]);
     }

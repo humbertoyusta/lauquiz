@@ -25,9 +25,9 @@ class QuizzesService extends AbstractService
         return parent::save($request, $id);
     }
 
-    public function paginate(int $perPage)
+    public function currentUserQuizzes (int $perPage)
     {
-        return Quiz::paginate($perPage);
+        return Quiz::where('author_id', Auth::user()->id)->paginate($perPage);
     }
 
     public function getQuizwithQuestionsAndAnswers(int $id): Quiz
