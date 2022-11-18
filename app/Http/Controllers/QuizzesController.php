@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
 {
+    public const PER_PAGE = 10;
+
     /**
      * Injecting the Service to handle the business logic
      */
@@ -21,7 +23,7 @@ class QuizzesController extends Controller
     public function index(Request $request)
     {
         return view('quizzes.index', [
-            'quizzes' => $this->quizzesService->get(),
+            'quizzes' => $this->quizzesService->paginate($this::PER_PAGE),
             'alertMessage' => $request->query('alertMessage'),
         ]);
     }

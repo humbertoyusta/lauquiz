@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class PlayQuizController extends Controller
 {
+    public const PER_PAGE = 10;
+
     public function __construct(
         private QuizzesService $quizzesService,
         private QuestionsService $questionsService,
@@ -21,7 +23,7 @@ class PlayQuizController extends Controller
     public function index ()
     {
         return view('play.index', [
-            'quizzes' => $this->quizzesService->getQuizzesWithQuestions(),
+            'quizzes' => $this->quizzesService->getQuizzesWithQuestions($this::PER_PAGE),
         ]);
     }
 

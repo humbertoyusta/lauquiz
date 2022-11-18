@@ -25,6 +25,11 @@ class QuizzesService extends AbstractService
         return parent::save($request, $id);
     }
 
+    public function paginate(int $perPage)
+    {
+        return Quiz::paginate($perPage);
+    }
+
     public function getQuizwithQuestionsAndAnswers(int $id): Quiz
     {
         return Quiz::where('id', $id)->with(['questions' => ['answers']])->first();
@@ -35,8 +40,8 @@ class QuizzesService extends AbstractService
         return Quiz::where('id', $id)->with(['questions'])->first();
     }
 
-    public function getQuizzesWithQuestions ()
+    public function getQuizzesWithQuestions (int $perPage)
     {
-        return Quiz::with(['questions'])->get();
+        return Quiz::with(['questions'])->paginate($perPage);
     }
 }

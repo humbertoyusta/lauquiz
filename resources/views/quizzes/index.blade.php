@@ -11,6 +11,7 @@
                     </x-bar>
                 @endforeach
             </ol>
+            {{$quizzes->links('pagination::bootstrap-5')}}
         </div>
     </div>
 </x-site-layout>
