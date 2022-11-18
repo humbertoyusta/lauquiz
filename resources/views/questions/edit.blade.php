@@ -1,10 +1,12 @@
 <x-site-layout>
     <x-page-title title="Edit a Question" />
     <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
-        <x-form route="{{route('questions.update', ['quiz' => $quiz_id, 'question' => $question->id])}}" method="PUT" button_name="Edit Question">
+        <x-form-multipart route="{{route('questions.update', ['quiz' => $quiz_id, 'question' => $question->id])}}" method="PUT" button_name="Edit Question">
             @csrf
             <x-form-input-text name="content" :errors="$errors" :value="$question['content']" />
-        </x-form>
+            <x-file-upload name="image" :errors="$errors"></x-file-upload>
+        </x-form-multipart>
+        <img src="{{$question->image}}" alt="Question Image" width="300" height="300" class="rounded mx-auto d-block" />
         <ol class="list-group mt-5">
             @foreach($question->answers as $answer)
                 <x-bar :text="$answer->content">

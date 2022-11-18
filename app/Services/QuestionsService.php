@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Question;
+use Illuminate\Http\Request;
 
 class QuestionsService extends AbstractService
 {
@@ -15,6 +16,36 @@ class QuestionsService extends AbstractService
                 'quiz_id' => 'required|integer|min:1',
             ],
         );
+    }
+
+    public function save(Request $request, int $id = 0) 
+    {
+        $question = parent::save($request, $id);
+
+        if ($request->has('image'))
+        {
+            $question
+                ->clearMediaCollection();
+
+            $question
+                ->addMediaFromRequest('image')
+                ->usingFileName($request->file('image')->hashName())
+                ->toMediaCollection();
+        }
+
+        return $question;
+    }
+
+    public function getQuestionWithAnswersAndImage (int $id)
+    {
+        $question = $this->getQuestionWithAnswers($id);
+
+        if ($question->getMedia()->first())
+            $question->image = $question->media->first()->getUrl('display');
+        else
+            $question->image = '/images/question-mark.png';
+
+        return $question;
     }
 
     public function getQuestionWithAnswers (int $id)
