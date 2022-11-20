@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('quizzes', QuizzesController::class);
     
     Route::prefix('quizzes/{quiz}')->group(function () {
+        Route::get('scoreboard', [QuizzesController::class, 'scoreboard'])->name('quizzes.scoreboard');
+
         Route::resource('questions', QuestionsController::class)->except(['index']);
     
         Route::prefix('questions/{question}')->group( function () {
@@ -39,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'show'])->name('play.questions.show');
     Route::post('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'store'])->name('play.questions.store');
+
     
     Route::middleware(['admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 });

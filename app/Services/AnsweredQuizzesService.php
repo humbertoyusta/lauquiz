@@ -20,4 +20,13 @@ class AnsweredQuizzesService
         return $this->performance(AnsweredQuiz::findOrFail($id));
     }
     
+    public function paginateFromQuizWithPerfAndUser (int $quiz_id, int $perPage) 
+    {
+        return AnsweredQuiz
+            ::where('quiz_id', $quiz_id)
+            ->with(['user'])
+            ->withCount('answeredQuestions', 'correctAnsweredQuestions')
+            ->orderByDesc('correct_answered_questions_count')
+            ->paginate($perPage);
+    }
 }
