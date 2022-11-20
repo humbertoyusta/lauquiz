@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Quiz>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tag>
  */
-class QuizFactory extends Factory
+class TagFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +17,7 @@ class QuizFactory extends Factory
     public function definition()
     {
         return [
-            'title' => ucfirst(fake()->word()),
-            'author_id' => rand(1, DatabaseSeeder::USERS_AMOUNT),
+            'name' => ucfirst(fake()->word()),
         ];
     }
 }
