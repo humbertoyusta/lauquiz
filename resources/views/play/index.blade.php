@@ -5,7 +5,7 @@
         <div class="card-body">
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
-                    <x-bar :text="$quiz['title']">
+                    <x-bar :text="$quiz['title']" :extra_text="'Tags: '.$quiz->tags->pluck('name')->implode(', ')">
                         <x-get-button :route="route('play.questions.show', ['quiz' => $quiz->id, 'question' => $quiz->questions->first()->id])" name="Play Quiz" />
                     </x-bar>
                 @endforeach

@@ -9,7 +9,7 @@
         <img src="{{$question->image}}" alt="Question Image" width="300" height="300" class="rounded mx-auto d-block" />
         <ol class="list-group mt-5">
             @foreach($question->answers as $answer)
-                <x-bar :text="$answer->content">
+                <x-bar :text="$answer->content" extra_text="">
                         <x-get-button :route="route('answers.edit', ['quiz' => $quiz_id, 'question' => $question->id, 'answer' => $answer->id])" name="Edit Answer" />
                         <x-delete-button :route="route('answers.destroy', ['quiz' => $quiz_id, 'question' => $question->id, 'answer' => $answer->id])" />
                 </x-bar>

@@ -8,7 +8,7 @@
         </x-form>
         <ol class="list-group mt-5">
             @foreach($quiz->questions as $question)
-                <x-bar :text="$question->content">
+                <x-bar :text="$question->content" extra_text="">
                     <x-get-button :route="route('questions.edit', ['quiz' => $quiz->id, 'question' => $question->id])" name="Edit Question" />
                     <x-delete-button :route="route('questions.destroy', ['quiz' => $quiz->id, 'question' => $question->id])" />
                 </x-bar>

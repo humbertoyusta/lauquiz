@@ -5,7 +5,7 @@
         <div class="card-body">
             <ol class="list-group">
                 @foreach($users as $user)
-                    <x-bar :text="$user->name.' '.$user->email">
+                    <x-bar :text="$user->name.' '.$user->email" extra_text="">
                         <x-delete-button :route="route('users.destroy', ['user' => $user->id])"></x-delete-button>
                     </x-bar>
                 @endforeach
