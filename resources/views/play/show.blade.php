@@ -6,5 +6,8 @@
             You have answered correctly {{$answeredQuiz->correct_answered_questions_count}} 
             out of {{$answeredQuiz->answered_questions_count}} questions
         </p>
+        <div class="m-2">
+            <x-get-button :route="route('quizzes.scoreboard', ['quiz' => $quiz->id])" name="See scoreboard"></x-get-button>
+        </div>
     </div>
 </x-site-layout>
