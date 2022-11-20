@@ -44,4 +44,9 @@ class QuizzesService extends AbstractService
     {
         return Quiz::with(['questions'])->paginate($perPage);
     }
+
+    public function getNonDraftQuizzesWithQuestions (int $perPage)
+    {
+        return Quiz::with(['questions'])->where('is_draft', false)->paginate($perPage);
+    }
 }
