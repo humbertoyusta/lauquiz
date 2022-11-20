@@ -3,11 +3,12 @@
     <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
         <x-form route="{{route('quizzes.update', ['quiz' => $quiz->id])}}" method="PUT" button_name="Edit Quiz">
             @csrf
-            <x-form-input-text name="title" :errors="$errors" :value="$quiz['title']" />
+            <x-form-input-text name="title" :errors="$errors" :value="$quiz['title']" placeholder_extra="" />
+            <x-form-input-text name="tags" :errors="$errors" :value="$quiz->tags->pluck('name')->implode(', ')" placeholder_extra="(comma separated)" />
         </x-form>
         <ol class="list-group mt-5">
             @foreach($quiz->questions as $question)
-                <x-bar :text="$question->content">
+                <x-bar :text="$question->content" extra_text="">
                     <x-get-button :route="route('questions.edit', ['quiz' => $quiz->id, 'question' => $question->id])" name="Edit Question" />
                     <x-delete-button :route="route('questions.destroy', ['quiz' => $quiz->id, 'question' => $question->id])" />
                 </x-bar>

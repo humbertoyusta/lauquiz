@@ -5,7 +5,7 @@
         <div class="card-body">
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
-                    <x-bar :text="$quiz['title']">
+                    <x-bar :text="$quiz['title']" :extra_text="'Tags: '.$quiz->tags->pluck('name')->implode(', ')">
                         @if($quiz->is_draft)
                             <x-badge text="Draft"></x-badge>
                         @else
@@ -18,7 +18,7 @@
             </ol>
             {{$quizzes->links('pagination::bootstrap-5')}}
             <p class="mt-5">
-                Draft quizzes can not be played, at at least one question and one correct answer 
+                Draft quizzes can not be played, add at least one question and one correct answer 
                 per question to the quiz to make it playable
             </p>
         </div>

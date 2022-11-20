@@ -23,7 +23,7 @@ class PlayQuizController extends Controller
     public function index ()
     {
         return view('play.index', [
-            'quizzes' => $this->quizzesService->getNonDraftQuizzesWithQuestions($this::PER_PAGE),
+            'quizzes' => $this->quizzesService->getNonDraftQuizzesWithQuestionsAndTags($this::PER_PAGE),
         ]);
     }
 

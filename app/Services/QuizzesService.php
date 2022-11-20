@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizzesService extends AbstractService
 {
-    public function __construct() {
+    public function __construct(
+        public TagsService $tagsService,
+    ) {
         parent::__construct(
             '\App\Models\Quiz',
             [
@@ -22,12 +24,34 @@ class QuizzesService extends AbstractService
     {
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
-        return parent::save($request, $id);
+        $quiz = parent::save($request, $id);
+
+        $tagNamesCommaSeparated = $request->validate([
+            'tags' => 'string|nullable',
+        ]);
+
+        $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
+
+        return $quiz;
     }
 
-    public function currentUserQuizzes (int $perPage)
+    private function syncTags(Quiz $quiz, string $tagNamesCommaSeparated): void
     {
-        return Quiz::where('author_id', Auth::user()->id)->paginate($perPage);
+        $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn($k) => ucfirst(strtolower(trim($k))));
+
+        foreach($tagNames as $tagName)
+        {
+            $tagIds[] = $this->tagsService->firstOrCreate([
+                'name' => $tagName,
+            ])->id;
+        }
+
+        $quiz->tags()->sync($tagIds);
+    }
+
+    public function currentUserQuizzesWithTags (int $perPage)
+    {
+        return Quiz::where('author_id', Auth::user()->id)->with('tags')->paginate($perPage);
     }
 
     public function getQuizwithQuestionsAndAnswers(int $id): Quiz
@@ -45,8 +69,8 @@ class QuizzesService extends AbstractService
         return Quiz::with(['questions'])->paginate($perPage);
     }
 
-    public function getNonDraftQuizzesWithQuestions (int $perPage)
+    public function getNonDraftQuizzesWithQuestionsAndTags (int $perPage)
     {
-        return Quiz::with(['questions'])->where('is_draft', false)->paginate($perPage);
+        return Quiz::with(['questions', 'tags'])->where('is_draft', false)->paginate($perPage);
     }
 }
