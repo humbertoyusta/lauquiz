@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
     const ANSWERED_QUIZZES_AMOUNT = 50;
     const ANSWERED_QUESTIONS_AMOUNT = 150;
     const TAGS_AMOUNT = 10;
+    const QUIZ_TAGS_AMOUNT = 50;
 
     /**
      * Seed the application's database.
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             AnsweredQuizSeeder::class,
             AnsweredQuestionSeeder::class,
             TagSeeder::class,
+            QuizTagSeeder::class,
         ]);
     }
 }
