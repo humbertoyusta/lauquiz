@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\QuizSavingEvent;
+use App\Events\QuizCheckIsADraftEvent;
 use App\Listeners\CheckIfItIsADraft;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        QuizSavingEvent::class => [
+        QuizCheckIsADraftEvent::class => [
             CheckIfItIsADraft::class,
         ],
     ];
