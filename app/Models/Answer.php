@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,6 +33,7 @@ class Answer extends Model
 
     protected static function booted()
     {
-        static::saved(fn($answer) => $answer->question->update([]));
+        static::saved(fn($answer) => $answer->question->quiz->update([]));
+        static::deleted(fn($answer) => $answer->question->quiz->update([]));
     }
 }
