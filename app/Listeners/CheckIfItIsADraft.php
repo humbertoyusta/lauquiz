@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\QuizCheckIsADraftEvent;
 use App\Events\QuizSavingEvent;
 use App\Models\Quiz;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -25,7 +26,7 @@ class CheckIfItIsADraft
      * @param  \App\Events\QuizSavingEvent  $event
      * @return void
      */
-    public function handle(QuizSavingEvent $event)
+    public function handle(QuizCheckIsADraftEvent $event)
     {
         $quiz = $event->quiz->load(['questions' => ['correctAnswers']]);
 

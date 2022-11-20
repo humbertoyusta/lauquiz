@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -55,5 +56,6 @@ class Question extends Model implements HasMedia
     protected static function booted()
     {
         static::saved(fn($question) => $question->quiz->update([]));
+        static::deleted(fn($question) => $question->quiz->update([]));
     }
 }
