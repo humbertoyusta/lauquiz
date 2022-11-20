@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QuizzesService extends AbstractService
 {
-    public function __construct() {
+    public function __construct(
+        public TagsService $tagsService,
+    ) {
         parent::__construct(
             '\App\Models\Quiz',
             [
@@ -22,7 +24,29 @@ class QuizzesService extends AbstractService
     {
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
-        return parent::save($request, $id);
+        $quiz = parent::save($request, $id);
+
+        $tagNamesCommaSeparated = $request->validate([
+            'tags' => 'string|nullable',
+        ]);
+
+        $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
+
+        return $quiz;
+    }
+
+    private function syncTags(Quiz $quiz, string $tagNamesCommaSeparated): void
+    {
+        $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn($k) => ucfirst(strtolower(trim($k))));
+
+        foreach($tagNames as $tagName)
+        {
+            $tagIds[] = $this->tagsService->firstOrCreate([
+                'name' => $tagName,
+            ])->id;
+        }
+
+        $quiz->tags()->sync($tagIds);
     }
 
     public function currentUserQuizzes (int $perPage)
