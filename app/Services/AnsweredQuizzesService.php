@@ -3,21 +3,21 @@
 namespace App\Services;
 
 use App\Models\AnsweredQuestion;
+use App\Models\AnsweredQuiz;
 
 class AnsweredQuizzesService
 {
-    public function performance (int $answeredQuizId)
+    public function performance (AnsweredQuiz $answeredQuiz)
     {
-        $correctAnswersCount = AnsweredQuestion::where('answered_quiz_id', $answeredQuizId)
-            ->with(['answer'])
-            ->whereHas('answer', fn($answer) => $answer->where('is_correct', 1) )
-            ->count();
-
-        $answersCount = AnsweredQuestion::where('answered_quiz_id', $answeredQuizId)->count();
-
-        return [
-            'correct_answers_count' => $correctAnswersCount,
-            'answers_count' => $answersCount,
-        ];
+        return collect([
+            'correct_answers_count' => $answeredQuiz->correctAnsweredQuestions()->count(),
+            'answers_count' => $answeredQuiz->answeredQuestions()->count(),
+        ]);
     }
+
+    public function getPerformanceFromId (int $id)
+    {
+        return $this->performance(AnsweredQuiz::findOrFail($id));
+    }
+    
 }

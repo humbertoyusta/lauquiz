@@ -21,6 +21,7 @@ class AnsweredQuestionFactory extends Factory
             'answered_quiz_id' => rand(1, DatabaseSeeder::ANSWERED_QUIZZES_AMOUNT),
             'question_id' => rand(1, DatabaseSeeder::QUESTIONS_AMOUNT),
             'answer_id' => rand(1, DatabaseSeeder::ANSWERS_AMOUNT),
+            'is_correct' => rand(0, 1),
         ];
     }
 }

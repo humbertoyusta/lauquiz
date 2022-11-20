@@ -26,4 +26,9 @@ class AnsweredQuiz extends Model
     {
         return $this->hasMany(AnsweredQuestion::class);
     }
+
+    public function correctAnsweredQuestions()
+    {
+        return $this->hasMany(AnsweredQuestion::class)->where('is_correct', 1);
+    }
 }

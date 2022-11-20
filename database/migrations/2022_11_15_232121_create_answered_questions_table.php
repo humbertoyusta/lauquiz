@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('answered_quiz_id');
             $table->foreignId('question_id');
             $table->foreignId('answer_id');
+            $table->boolean('is_correct');
             $table->timestamps();
         });
     }
