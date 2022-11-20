@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class AnsweredQuizFactory extends Factory
     {
         return [
             'user_id' => rand(1, 10),
-            'quiz_id' => rand(1, 5),
+            'quiz_id' => rand(1, DatabaseSeeder::QUIZZES_AMOUNT),
         ];
     }
 }

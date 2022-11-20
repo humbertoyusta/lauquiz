@@ -21,6 +21,6 @@ class UserSeeder extends Seeder
         $admin->is_admin = true;
         $admin->save();
 
-        User::factory(10)->create();
+        User::factory(DatabaseSeeder::USERS_AMOUNT - 1)->create();
     }
 }

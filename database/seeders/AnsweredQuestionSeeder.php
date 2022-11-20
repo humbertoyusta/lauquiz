@@ -15,6 +15,6 @@ class AnsweredQuestionSeeder extends Seeder
      */
     public function run()
     {
-        AnsweredQuestion::factory(30)->create();
+        AnsweredQuestion::factory(DatabaseSeeder::ANSWERED_QUESTIONS_AMOUNT)->create();
     }
 }

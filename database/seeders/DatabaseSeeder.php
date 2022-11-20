@@ -7,6 +7,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    const USERS_AMOUNT = 10;
+    const QUIZZES_AMOUNT = 25;
+    const QUESTIONS_AMOUNT = 50;
+    const ANSWERS_AMOUNT = 150;
+    const ANSWERED_QUIZZES_AMOUNT = 50;
+    const ANSWERED_QUESTIONS_AMOUNT = 150;
+
     /**
      * Seed the application's database.
      *
