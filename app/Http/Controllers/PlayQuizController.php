@@ -30,7 +30,7 @@ class PlayQuizController extends Controller
     public function show (int $quiz, int $answered_quiz) {
         return view('play.show', [
             'quiz' => $this->quizzesService->get($quiz),
-            'performance' => $this->answeredQuizzesService->getPerformanceFromId($answered_quiz),
+            'answeredQuiz' => $this->answeredQuizzesService->getWithPerf($answered_quiz),
         ]);
     }
 }

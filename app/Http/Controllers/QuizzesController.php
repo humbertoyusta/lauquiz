@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AnsweredQuizzesService;
 use App\Services\QuizzesService;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,7 @@ class QuizzesController extends Controller
      */
     public function __construct(
         private QuizzesService $quizzesService,
+        private AnsweredQuizzesService $answeredQuizzesService,
     ) {
     }
 
@@ -54,6 +56,13 @@ class QuizzesController extends Controller
         return view('quizzes.show', [
             'quiz' => $this->quizzesService->getQuizwithQuestions($id),
         ]);
+    }
+
+    public function scoreboard(int $id) 
+    {
+        $answeredQuizzes = $this->answeredQuizzesService->paginateFromQuizWithPerfAndUser($id, $this::PER_PAGE);
+
+        return view('quizzes.scoreboard', ['answeredQuizzes' => $answeredQuizzes]);
     }
 
     /**

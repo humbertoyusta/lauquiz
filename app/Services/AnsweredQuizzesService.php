@@ -7,17 +7,21 @@ use App\Models\AnsweredQuiz;
 
 class AnsweredQuizzesService
 {
-    public function performance (AnsweredQuiz $answeredQuiz)
+    public function getWithPerf (int $answeredQuizId)
     {
-        return collect([
-            'correct_answers_count' => $answeredQuiz->correctAnsweredQuestions()->count(),
-            'answers_count' => $answeredQuiz->answeredQuestions()->count(),
-        ]);
-    }
-
-    public function getPerformanceFromId (int $id)
-    {
-        return $this->performance(AnsweredQuiz::findOrFail($id));
+        return AnsweredQuiz
+            ::where('id', $answeredQuizId)
+            ->withCount('answeredQuestions', 'correctAnsweredQuestions')
+            ->sole();
     }
     
+    public function paginateFromQuizWithPerfAndUser (int $quiz_id, int $perPage) 
+    {
+        return AnsweredQuiz
+            ::where('quiz_id', $quiz_id)
+            ->with(['user'])
+            ->withCount('answeredQuestions', 'correctAnsweredQuestions')
+            ->orderByDesc('correct_answered_questions_count')
+            ->paginate($perPage);
+    }
 }
