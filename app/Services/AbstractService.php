@@ -6,6 +6,9 @@ use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
+/**
+ * AbstractService to be extended by other Services
+ */
 abstract class AbstractService implements ServiceInterface
 {
     protected $className = '';
@@ -17,20 +20,22 @@ abstract class AbstractService implements ServiceInterface
         $this->validationRules = $validationRules;
     }
 
+    /**
+     * Get all if no id is given or id = 0, otherwise find by id
+     */
     public function get(int $id = 0)
     {
         if ($id === 0) {
             return $this->className::all();
         } else {
-            $entity = $this->className::find($id);
-            if (! $entity) {
-                throw new HttpException(400, 'Entity not found.');
-            } else {
-                return $entity;
-            }
+            return $this->className::findOrFail($id);
         }
     }
 
+    /**
+     * Save a model from request validation rules
+     * updates if id != 0, creates otherwise
+     */
     public function save(Request $request, int $id = 0)
     {
         $validated = $request->validate($this->validationRules);
@@ -49,6 +54,9 @@ abstract class AbstractService implements ServiceInterface
         return $entity;
     }
 
+    /**
+     * Deletes a model given id
+     */
     public function delete(int $id)
     {
         $entity = $this->get($id);
