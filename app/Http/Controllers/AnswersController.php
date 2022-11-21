@@ -50,10 +50,15 @@ class AnswersController extends Controller
      */
     public function edit(int $quiz, int $question, int $answer)
     {
+        $answer = $this->answersService->get($answer);
+
+        if (!$answer->canBeEditedBy())
+            return redirect()->back();
+
         return view('answers.edit', [
             'quiz_id' => $quiz,
             'question_id' => $question,
-            'answer' => $this->answersService->get($answer),
+            'answer' => $answer,
         ]);
     }
 

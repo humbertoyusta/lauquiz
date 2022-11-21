@@ -28,14 +28,22 @@ class QuizzesService extends AbstractService
      */
     public function save (Request $request, int $id = 0)
     {
+        // Add author_id of logged in user and is_draft to true (is_draft will be changed later by an event)
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
+        // If it is update, check if logged in user has access to update
+        if ($id && !Quiz::findOrFail($id)->canBeEditedBy())
+            abort(403);
+
+        // Actually create or update
         $quiz = parent::save($request, $id);
 
+        // Validate tags
         $tagNamesCommaSeparated = $request->validate([
             'tags' => 'string|nullable',
         ]);
 
+        // Sync tags
         if ($tagNamesCommaSeparated['tags'])
             $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
 

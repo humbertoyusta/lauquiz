@@ -24,8 +24,14 @@ class QuestionsService extends AbstractService
      */
     public function save(Request $request, int $id = 0) 
     {
+        // If it is update, check if logged in user has access to update
+        if ($id && !Question::findOrFail($id)->canBeEditedBy())
+            abort(403);
+
+        // Actually creating or updating the Question
         $question = parent::save($request, $id);
 
+        // Handling the image
         if ($request->has('image'))
         {
             $question
