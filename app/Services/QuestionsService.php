@@ -18,6 +18,10 @@ class QuestionsService extends AbstractService
         );
     }
 
+    /**
+     * Custom saving method for Questions
+     * Use AbstractService->save and save image if sent
+     */
     public function save(Request $request, int $id = 0) 
     {
         $question = parent::save($request, $id);
@@ -36,6 +40,10 @@ class QuestionsService extends AbstractService
         return $question;
     }
 
+    /**
+     * Get questions with answers loaded and image link
+     * in $question->image
+     */
     public function getQuestionWithAnswersAndImage (int $id)
     {
         $question = $this->getQuestionWithAnswers($id);
@@ -48,11 +56,18 @@ class QuestionsService extends AbstractService
         return $question;
     }
 
+
+    /**
+     * Get questions with answers loaded
+     */
     public function getQuestionWithAnswers (int $id)
     {
         return Question::where('id', $id)->with('answers')->first();
     }
 
+    /**
+     * Get first question form Quiz $quizId with and ID greater than $questionId
+     */
     public function getNextQuestionWithAnswers (int $quizId, int $questionId)
     {
         return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->first();

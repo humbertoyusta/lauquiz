@@ -14,6 +14,9 @@ abstract class AbstractService implements ServiceInterface
     protected $className = '';
     protected $validationRules = [];
 
+    /**
+     * Parameters to construct, model name and validation rules to create or update
+     */
     public function __construct(string $className, array $validationRules)
     {
         $this->className = $className;

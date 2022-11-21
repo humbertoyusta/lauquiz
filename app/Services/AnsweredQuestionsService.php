@@ -20,6 +20,10 @@ class AnsweredQuestionsService extends AbstractService
         );
     }
 
+    /**
+     * Custom saving method for AnsweredQuestions
+     * Add is_correct field and use AbstractService->save
+     */
     public function save(Request $request, int $id = 0)
     {
         $request->request->add(['is_correct' => Answer::find($request->answer_id)->is_correct]);

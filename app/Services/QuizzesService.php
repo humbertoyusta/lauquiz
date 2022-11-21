@@ -20,6 +20,12 @@ class QuizzesService extends AbstractService
         );
     }
 
+    /**
+     * Custom saving method for Quizzes.
+     * Add current logged in user as author.
+     * Use AbstractService->save.
+     * Create or update each Tag from the form.
+     */
     public function save (Request $request, int $id = 0)
     {
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
@@ -36,6 +42,9 @@ class QuizzesService extends AbstractService
         return $quiz;
     }
 
+    /**
+     * Syncs Tags to Quiz
+     */
     private function syncTags(Quiz $quiz, string $tagNamesCommaSeparated): void
     {
         $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn($k) => ucfirst(strtolower(trim($k))));
