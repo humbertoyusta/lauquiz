@@ -8,12 +8,18 @@ use Illuminate\Http\Request;
 
 class AnsweredQuestionsController extends Controller
 {
+    /**
+     * Using dependency injection to inject services
+     */
     public function __construct(
         private QuestionsService $questionsService,
         private AnsweredQuestionsService $answeredQuestionsService,
     )
     {}
 
+    /**
+     * Show the page to answer a question from a playing quiz
+     */
     public function show (int $quiz, int $question, int $answered_quiz = null)
     {
         return view('play.questions.show', [
@@ -23,6 +29,9 @@ class AnsweredQuestionsController extends Controller
         ]);
     }
 
+    /**
+     * Store the answered question from a playing quiz
+     */
     public function store (Request $request, int $quiz, int $question, int $answered_quiz = null)
     {
         $request->request->add(['question_id' => $question, 'answered_quiz_id' => $answered_quiz]);

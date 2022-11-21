@@ -20,6 +20,9 @@ class PlayQuizController extends Controller
     )
     {}
 
+    /**
+     * Displays the playable Quizzes
+     */
     public function index ()
     {
         return view('play.index', [
@@ -27,6 +30,9 @@ class PlayQuizController extends Controller
         ]);
     }
 
+    /**
+     * Displays the page of finished quiz with performance
+     */
     public function show (int $quiz, int $answered_quiz) {
         return view('play.show', [
             'quiz' => $this->quizzesService->get($quiz),
