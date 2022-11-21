@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Manipulations;
@@ -44,6 +45,20 @@ class Question extends Model implements HasMedia
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
+    }
+
+    // Question custom functions
+
+    /**
+     * Checks whether the question can be edited by a given user or the logged in user if no user is given
+     */
+    public function canBeEditedBy(int $id = null): bool
+    {
+        // Get the given user, if no user is given take the logged in user
+        $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
+
+        // Admins or owners can edit
+        return ($user->is_admin || $user->id == $this->quiz->author_id);
     }
 
     // Question Media Conversions

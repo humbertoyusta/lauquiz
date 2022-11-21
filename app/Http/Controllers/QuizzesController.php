@@ -73,6 +73,11 @@ class QuizzesController extends Controller
      */
     public function edit($id)
     {
+        $quiz = $this->quizzesService->getQuizwithQuestions($id);
+
+        if (!$quiz->canBeEditedBy())
+            return redirect()->back();
+
         return view('quizzes.edit', [
             'quiz' => $this->quizzesService->getQuizwithQuestions($id),
         ]);
