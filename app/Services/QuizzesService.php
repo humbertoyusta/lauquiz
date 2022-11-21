@@ -30,7 +30,8 @@ class QuizzesService extends AbstractService
             'tags' => 'string|nullable',
         ]);
 
-        $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
+        if ($tagNamesCommaSeparated['tags'])
+            $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
 
         return $quiz;
     }
