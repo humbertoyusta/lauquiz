@@ -44,16 +44,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // User Relations
+    public function answeredQuizzes()
+    {
+        return $this->hasMany(AnsweredQuiz::class);
+    }
+    
     public function quizzes()
     {
         return $this->hasMany(Quiz::class, 'author_id');
     }
 
-    public function answeredQuizzes()
-    {
-        return $this->hasMany(AnsweredQuiz::class);
-    }
-
+    // User Events
     protected static function booted()
     {
         static::created( fn($user) => $user->notify(new RegisterNotification) );

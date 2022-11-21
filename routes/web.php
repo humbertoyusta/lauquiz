@@ -20,13 +20,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Public Routes
 Route::get('/', WelcomeController::class)->name('welcome');
 
+// Logged In Routes
 Route::middleware(['auth'])->group(function () {
     
     Route::resource('quizzes', QuizzesController::class);
     
     Route::prefix('quizzes/{quiz}')->group(function () {
+        
+        // Displays scoreboard of a quiz
         Route::get('scoreboard', [QuizzesController::class, 'scoreboard'])->name('quizzes.scoreboard');
 
         Route::resource('questions', QuestionsController::class)->except(['index']);
@@ -36,13 +40,19 @@ Route::middleware(['auth'])->group(function () {
         });
     });
     
+    // Index of all playable quizzes
     Route::get('play', [PlayQuizController::class, 'index'])->name('play.index');
+
+    // Shows performance of a played quiz
     Route::get('play/{quiz}/{answered_quiz}', [PlayQuizController::class, 'show'])->name('play.show');
     
+    // Shows the page to answer a question
     Route::get('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'show'])->name('play.questions.show');
+    
+    // Store an answered question
     Route::post('play/{quiz}/questions/{question}/{answered_quiz?}', [AnsweredQuestionsController::class, 'store'])->name('play.questions.store');
 
-    
+    // Admin Routes
     Route::middleware(['admin'])->resource('users', UsersController::class)->only(['index', 'destroy']);
 });
 

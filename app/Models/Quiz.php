@@ -21,27 +21,29 @@ class Quiz extends Model
         'correct_answer_id',
     ];
 
-    protected $dispatchesEvents = [
-        'saving' => QuizCheckIsADraftEvent::class,
-    ];
-
+    // Quiz Relations
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
-
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
-
+    
     public function answeredQuizzes()
     {
         return $this->hasMany(AnsweredQuiz::class);
     }
-
+    
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+    
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    // Quiz Events
+    protected $dispatchesEvents = [
+        'saving' => QuizCheckIsADraftEvent::class,
+    ];
 }

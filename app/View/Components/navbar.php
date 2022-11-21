@@ -26,10 +26,6 @@ class navbar extends Component
                 'url' => route('quizzes.index'),
             ],
             [
-                'title' => 'Create new quiz',
-                'url' => route('quizzes.create'),
-            ],
-            [
                 'title' => 'Play',
                 'url' => '/play',
             ],

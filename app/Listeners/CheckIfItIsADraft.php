@@ -22,17 +22,23 @@ class CheckIfItIsADraft
 
     /**
      * Handle the event.
+     * Checks if a Quiz is a draft,
+     * updates is_draft field of Quiz
      *
      * @param  \App\Events\QuizSavingEvent  $event
      * @return void
      */
     public function handle(QuizCheckIsADraftEvent $event)
     {
-        $quiz = $event->quiz->load(['questions' => ['correctAnswers']]);
+        $quiz = $event->quiz;
 
         $quiz->is_draft = $this->isADraft($quiz);
     }
 
+    /**
+     * Actually check if a quiz is a draft
+     * @return boolean true if it is a draft, false if it playable
+     */
     private function isADraft(Quiz $quiz): bool 
     {
         $quiz->load(['questions' => ['correctAnswers']]);

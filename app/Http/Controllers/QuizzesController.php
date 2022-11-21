@@ -58,6 +58,9 @@ class QuizzesController extends Controller
         ]);
     }
 
+    /**
+     * Display the scoreboard of all the users that answered a Quiz
+     */
     public function scoreboard(int $id) 
     {
         $answeredQuizzes = $this->answeredQuizzesService->paginateFromQuizWithPerfAndUser($id, $this::PER_PAGE);
