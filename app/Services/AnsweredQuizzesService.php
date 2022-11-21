@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\AnsweredQuestion;
 use App\Models\AnsweredQuiz;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AnsweredQuizzesService
 {
@@ -32,5 +34,10 @@ class AnsweredQuizzesService
             ->withCount('answeredQuestions', 'correctAnsweredQuestions')
             ->orderByDesc('correct_answered_questions_count')
             ->paginate($perPage);
+    }
+
+    public function getMaxAnsweredQuizIdFromAuthUser()
+    {
+        return AnsweredQuiz::where('user_id', Auth::user()->id)->max('id');
     }
 }
