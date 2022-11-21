@@ -49,12 +49,6 @@ First sure you have php and composer installed
   ./vendor/bin/sail artisan key:generate
 ```
 
-7. 
-
-```bash
-  ./vendor/bin/sail npm run dev
-```
-
 ## Authors
 
 - [@humbertoyusta](https://www.github.com/humbertoyusta)
