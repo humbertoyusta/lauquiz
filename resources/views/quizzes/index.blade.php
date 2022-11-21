@@ -4,6 +4,9 @@
         <h2 class="m-3">Quizzes</h2>
         <div class="card-body">
             <ol class="list-group">
+                <x-simple-bar>
+                    <x-get-button :route="route('quizzes.create')" name="Create New Quiz"></x-get-button>
+                </x-simple-bar>
                 @foreach($quizzes as $quiz)
                     <x-bar :text="$quiz['title']" :extra_text="'Tags: '.$quiz->tags->pluck('name')->implode(', ')">
                         @if($quiz->is_draft)
