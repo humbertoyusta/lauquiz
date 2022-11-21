@@ -26,7 +26,8 @@ class AnsweredQuestionsService extends AbstractService
      */
     public function save(Request $request, int $id = 0)
     {
-        $request->request->add(['is_correct' => Answer::find($request->answer_id)->is_correct]);
+        if ($request->has('answer_id'))
+            $request->request->add(['is_correct' => Answer::find($request->answer_id)->is_correct]);
 
         return parent::save($request, $id);
     }
