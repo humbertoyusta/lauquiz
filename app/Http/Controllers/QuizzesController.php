@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
 {
-    public const PER_PAGE = 10;
+    public const PER_PAGE = 5;
 
     /**
      * Injecting the Service to handle the business logic

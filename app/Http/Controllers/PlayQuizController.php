@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class PlayQuizController extends Controller
 {
-    public const PER_PAGE = 10;
+    public const PER_PAGE = 5;
 
     public function __construct(
         private QuizzesService $quizzesService,
