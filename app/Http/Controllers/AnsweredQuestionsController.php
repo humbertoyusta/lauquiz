@@ -24,7 +24,7 @@ class AnsweredQuestionsController extends Controller
     {
         return view('play.questions.show', [
             'quiz_id' => $quiz,
-            'question' => $this->questionsService->getQuestionWithAnswers($question),
+            'question' => $this->questionsService->getQuestionWithAnswersAndImage($question),
             'answered_quiz_id' => $answered_quiz,
         ]);
     }
