@@ -10,12 +10,23 @@ class AnsweredQuestion extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'answered_quiz_id',
         'question_id',
         'answer_id',
         'is_correct',
     ];
+
+    // AnsweredQuestion Relations
+    public function answer ()
+    {
+        return $this->belongsTo(Answer::class);
+    }
 
     public function answeredQuiz ()
     {
@@ -27,13 +38,10 @@ class AnsweredQuestion extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function answer ()
-    {
-        return $this->belongsTo(Answer::class);
-    }
-
+    // AnsweredQuestion Events
     protected static function booted()
     {
+        // Create an Answered Quiz for Answered Question being created if there is not one
         static::creating(
             function ($answeredQuestion) {
                 if (!$answeredQuestion->answered_quiz_id) {

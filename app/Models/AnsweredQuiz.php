@@ -9,19 +9,17 @@ class AnsweredQuiz extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'user_id',
         'quiz_id',
     ];
 
-    public function user () {
-        return $this->belongsTo(User::class);
-    }
-
-    public function quiz () {
-        return $this->belongsTo(Quiz::class);
-    }
-
+    // AnsweredQuiz Relations
     public function answeredQuestions()
     {
         return $this->hasMany(AnsweredQuestion::class);
@@ -30,5 +28,13 @@ class AnsweredQuiz extends Model
     public function correctAnsweredQuestions()
     {
         return $this->hasMany(AnsweredQuestion::class)->where('is_correct', 1);
+    }
+
+    public function quiz () {
+        return $this->belongsTo(Quiz::class);
+    }
+    
+    public function user () {
+        return $this->belongsTo(User::class);
     }
 }

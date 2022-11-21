@@ -25,26 +25,28 @@ class Question extends Model implements HasMedia
         'content',
     ];
 
+    // Question Relations
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+    
+    public function answeredQuestions()
+    {
+        return $this->hasMany(AnsweredQuestion::class);
+    }
+    
+    public function correctAnswers()
+    {
+        return $this->hasMany(Answer::class)->where('is_correct', 1);
+    }
+    
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
     }
 
-    public function answers()
-    {
-        return $this->hasMany(Answer::class);
-    }
-
-    public function correctAnswers()
-    {
-        return $this->hasMany(Answer::class)->where('is_correct', 1);
-    }
-
-    public function answeredQuestions()
-    {
-        return $this->hasMany(AnsweredQuestion::class);
-    }
-
+    // Question Media Conversions
     public function registerMediaCollections(Media $media = null): void
     {   
         $this
@@ -53,8 +55,10 @@ class Question extends Model implements HasMedia
             ->nonQueued();
     }
 
+    // Question Events
     protected static function booted()
     {
+        // Update quiz when updating question to allow QuizCheckIsADraftEvent event being thrown
         static::saved(fn($question) => $question->quiz->update([]));
         static::deleted(fn($question) => $question->quiz->update([]));
     }
