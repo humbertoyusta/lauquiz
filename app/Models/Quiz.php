@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Quiz extends Model
 {
@@ -40,6 +41,20 @@ class Quiz extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    // Quiz custom functions
+
+    /**
+     * Checks whether the quiz can be edited by a given user or the logged in user if no user is given
+     */
+    public function canBeEditedBy(int $id = null): bool
+    {
+        // Get the given user, if no user is given take the logged in user
+        $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
+
+        // Admins or owners can edit
+        return ($user->is_admin || $user->id === $this->author_id);
     }
 
     // Quiz Events
