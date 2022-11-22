@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "spatie/laravel-medialibrary": "^10.0.0",
+        "symfony/http-client": "^6.0",
         "symfony/postmark-mailer": "^6.0"
     },
     "require-dev": {
