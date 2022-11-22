@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class navbar extends Component
+class Navbar extends Component
 {
     public array $navbarItems = [];
 

@@ -5,7 +5,7 @@ namespace App\View\Components;
 use App\Models\Quiz as QuizModel;
 use Illuminate\View\Component;
 
-class quiz extends Component
+class Quiz extends Component
 {
     /**
      * Create a new component instance.
