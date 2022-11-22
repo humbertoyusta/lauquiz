@@ -41,7 +41,6 @@ class RegisterNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from('hello@lauquiz.com', 'Lauquiz')
                     ->subject('Thank you for using Lauquiz')
                     ->greeting('Dear '.$notifiable->name.',')
                     ->line('Thank you for registering in our application!')
