@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -15,6 +16,7 @@ class Question extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -73,8 +75,17 @@ class Question extends Model implements HasMedia
     // Question Events
     protected static function booted()
     {
-        // Update quiz when updating question to allow QuizCheckIsADraftEvent event being thrown
-        static::saved(fn($question) => $question->quiz->update([]));
-        static::deleted(fn($question) => $question->quiz->update([]));
+        static::saved(function($question) {
+            // Update Quiz when saving question to allow QuizCheckIsADraftEvent event being thrown
+            $question->quiz->update([]);
+        });
+        static::deleted(function($question) {
+            // Update Quiz when deleting question to allow QuizCheckIsADraftEvent event being thrown
+            $question->quiz->update([]);
+        });
+        static::deleting(function($question) {
+            // Cascade Deletes
+            $question->answers()->delete();
+        });
     }
 }

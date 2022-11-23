@@ -60,10 +60,10 @@ abstract class AbstractService implements ServiceInterface
     /**
      * Deletes a model given id
      */
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         $entity = $this->get($id);
 
-        $entity->delete();
+        return $entity->delete();
     }
 }

@@ -20,8 +20,9 @@ class UsersController extends Controller
 
     public function destroy (int $id)
     {
-        $this->usersService->delete($id);
-
-        return redirect(route('users.index'));
+        if ($this->usersService->delete($id))
+            return redirect(route('users.index'));
+        else
+            return redirect()->back()->with('error_message', 'Delete all the quizzes created before deleting the account');
     }
 }
