@@ -7,6 +7,8 @@ use App\Services\AnsweredQuizzesService;
 use App\Services\QuestionsService;
 use App\Services\QuizzesService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class PlayQuizController extends Controller
 {
@@ -25,9 +27,25 @@ class PlayQuizController extends Controller
      */
     public function index ()
     {
-        return view('play.index', [
-            'quizzes' => $this->quizzesService->getNonDraftQuizzesWithQuestionsAndTags($this::PER_PAGE),
-        ]);
+        $nonPaginatedQuizzes = Cache::remember(
+            'play.index.allquizzes', 
+            180, 
+            function () {
+                return $this->quizzesService->getNonDraftQuizzesWithQuestionsAndTags();
+            },  
+        );
+
+        $page = request()->get('page', 1);
+
+        $paginatedQuizzes = new LengthAwarePaginator(
+            $nonPaginatedQuizzes->forPage($page, $this::PER_PAGE),
+            $nonPaginatedQuizzes->count(),
+            $this::PER_PAGE,
+            $page,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()],
+        );
+
+        return view('play.index', ['quizzes' => $paginatedQuizzes]);
     }
 
     /**

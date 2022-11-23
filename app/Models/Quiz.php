@@ -6,6 +6,7 @@ use App\Events\QuizCheckIsADraftEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class Quiz extends Model
 {
@@ -61,4 +62,14 @@ class Quiz extends Model
     protected $dispatchesEvents = [
         'saving' => QuizCheckIsADraftEvent::class,
     ];
+
+    protected static function booted()
+    {
+        static::saved(function ($quiz) {
+            Cache::forget('play.index.allquizzes');
+        });
+        static::deleted(function ($quiz) {
+            Cache::forget('play.index.allquizzes');
+        });
+    }
 }
