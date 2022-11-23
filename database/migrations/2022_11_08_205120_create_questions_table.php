@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('quiz_id');
             $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
