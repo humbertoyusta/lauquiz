@@ -29,7 +29,7 @@ class PlayQuizController extends Controller
     {
         $nonPaginatedQuizzes = Cache::remember(
             'play.index.allquizzes', 
-            180, 
+            config('app.cache_ttl'), 
             function () {
                 return $this->quizzesService->getNonDraftQuizzesWithQuestionsAndTags();
             },  

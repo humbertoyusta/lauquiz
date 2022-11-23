@@ -212,4 +212,14 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Cache
+    |--------------------------------------------------------------------------
+    |
+    | Cache Time To Live, time the data is being cached in pages
+    |
+    */
+
+    'cache_ttl' => env('CACHE_TTL', 180),
 ];
