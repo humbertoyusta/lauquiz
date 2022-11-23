@@ -75,8 +75,17 @@ class Question extends Model implements HasMedia
     // Question Events
     protected static function booted()
     {
-        // Update quiz when updating question to allow QuizCheckIsADraftEvent event being thrown
-        static::saved(fn($question) => $question->quiz->update([]));
-        static::deleted(fn($question) => $question->quiz->update([]));
+        static::saved(function($question) {
+            // Update Quiz when saving question to allow QuizCheckIsADraftEvent event being thrown
+            $question->quiz->update([]);
+        });
+        static::deleted(function($question) {
+            // Update Quiz when deleting question to allow QuizCheckIsADraftEvent event being thrown
+            $question->quiz->update([]);
+        });
+        static::deleting(function($question) {
+            // Cascade Deletes
+            $question->answers()->delete();
+        });
     }
 }

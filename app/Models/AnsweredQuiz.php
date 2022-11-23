@@ -39,4 +39,12 @@ class AnsweredQuiz extends Model
     public function user () {
         return $this->belongsTo(User::class);
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($answeredQuiz) {
+            // Cascade Deletes
+            $answeredQuiz->answeredQuestions()->delete();
+        });
+    }
 }

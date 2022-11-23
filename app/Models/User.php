@@ -62,6 +62,7 @@ class User extends Authenticatable
     {
         static::created( fn($user) => $user->notify(new RegisterNotification) );
         static::deleting(function ($user): bool {
+            // If user has quizzes that are not deleted, do not delete the user
             if ($user->quizzes->count() !== 0)
                 return false;
             return true;

@@ -21,6 +21,7 @@ class Tag extends Model
     // Tag Relations
     public function quizzes()
     {
-        return $this->belongsToMany(Quiz::class);
+        return $this->belongsToMany(Quiz::class)
+            ->withTimestamps();
     }
 }
