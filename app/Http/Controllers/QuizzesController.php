@@ -26,7 +26,6 @@ class QuizzesController extends Controller
     {
         return view('quizzes.index', [
             'quizzes' => $this->quizzesService->currentUserQuizzesWithTags($this::PER_PAGE),
-            'alertMessage' => $request->query('alertMessage'),
         ]);
     }
 
@@ -100,6 +99,6 @@ class QuizzesController extends Controller
     {
         $this->quizzesService->delete($id);
 
-        return redirect(route('quizzes.index', ['alertMessage' => 'Deleted succesfully']));
+        return redirect(route('quizzes.index'))->with('success_message', 'Deleted succesfully');
     }
 }

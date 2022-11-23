@@ -88,7 +88,6 @@ class AnswersController extends Controller
         return redirect(route('questions.edit', [
             'quiz' => $quiz,
             'question' => $question,
-            'alertMessage' => 'Deleted succesfully',
         ])); 
     }
 }

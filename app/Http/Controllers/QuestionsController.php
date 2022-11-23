@@ -82,7 +82,6 @@ class QuestionsController extends Controller
 
         return redirect(route('quizzes.edit', [
             'quiz' => $this->quizzesService->getQuizwithQuestions($quiz),
-            'alertMessage' => 'Deleted succesfully',
         ]));
     }
 }
