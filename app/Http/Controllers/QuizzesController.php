@@ -60,7 +60,7 @@ class QuizzesController extends Controller
     /**
      * Display the scoreboard of all the users that answered a Quiz
      */
-    public function scoreboard(int $id) 
+    public function scoreboard(int $id)
     {
         $answeredQuizzes = $this->answeredQuizzesService->paginateFromQuizWithPerfAndUser($id, $this::PER_PAGE);
 
@@ -74,8 +74,9 @@ class QuizzesController extends Controller
     {
         $quiz = $this->quizzesService->getQuizwithQuestions($id);
 
-        if (!$quiz->canBeEditedBy())
+        if (! $quiz->canBeEditedBy()) {
             return redirect()->back();
+        }
 
         return view('quizzes.edit', [
             'quiz' => $this->quizzesService->getQuizwithQuestions($id),

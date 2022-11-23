@@ -32,11 +32,13 @@ class AnsweredQuiz extends Model
         return $this->hasMany(AnsweredQuestion::class)->where('is_correct', 1);
     }
 
-    public function quiz () {
+    public function quiz()
+    {
         return $this->belongsTo(Quiz::class);
     }
-    
-    public function user () {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 

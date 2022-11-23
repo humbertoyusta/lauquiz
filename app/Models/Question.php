@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Question extends Model implements HasMedia
@@ -33,17 +33,17 @@ class Question extends Model implements HasMedia
     {
         return $this->hasMany(Answer::class);
     }
-    
+
     public function answeredQuestions()
     {
         return $this->hasMany(AnsweredQuestion::class);
     }
-    
+
     public function correctAnswers()
     {
         return $this->hasMany(Answer::class)->where('is_correct', 1);
     }
-    
+
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
@@ -60,12 +60,12 @@ class Question extends Model implements HasMedia
         $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
 
         // Admins or owners can edit
-        return ($user->is_admin || $user->id == $this->quiz->author_id);
+        return $user->is_admin || $user->id == $this->quiz->author_id;
     }
 
     // Question Media Conversions
     public function registerMediaCollections(Media $media = null): void
-    {   
+    {
         $this
             ->addMediaConversion('display')
             ->fit(Manipulations::FIT_CROP, 512, 512)
@@ -75,15 +75,15 @@ class Question extends Model implements HasMedia
     // Question Events
     protected static function booted()
     {
-        static::saved(function($question) {
+        static::saved(function ($question) {
             // Update Quiz when saving question to allow QuizCheckIsADraftEvent event being thrown
             $question->quiz->update([]);
         });
-        static::deleted(function($question) {
+        static::deleted(function ($question) {
             // Update Quiz when deleting question to allow QuizCheckIsADraftEvent event being thrown
             $question->quiz->update([]);
         });
-        static::deleting(function($question) {
+        static::deleting(function ($question) {
             // Cascade Deletes
             $question->answers()->delete();
         });

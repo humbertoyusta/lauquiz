@@ -30,17 +30,17 @@ class Quiz extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
-    
+
     public function answeredQuizzes()
     {
         return $this->hasMany(AnsweredQuiz::class);
     }
-    
+
     public function questions()
     {
         return $this->hasMany(Question::class);
     }
-    
+
     public function tags()
     {
         return $this
@@ -59,7 +59,7 @@ class Quiz extends Model
         $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
 
         // Admins or owners can edit
-        return ($user->is_admin || $user->id === $this->author_id);
+        return $user->is_admin || $user->id === $this->author_id;
     }
 
     // Quiz Events
@@ -77,15 +77,17 @@ class Quiz extends Model
             // Delete quizzes cache after modifying a Quiz
             Cache::forget('play.index.allquizzes');
         });
-        static::deleting(function($quiz) {
+        static::deleting(function ($quiz) {
             /**
              * Cascade Deletes
              * Not using mass delete to make sure deleting and deleted events of children are thrown
              */
-            foreach ($quiz->questions as $question)
+            foreach ($quiz->questions as $question) {
                 $question->delete();
-            foreach ($quiz->answeredQuizzes as $answeredQuiz)
+            }
+            foreach ($quiz->answeredQuizzes as $answeredQuiz) {
                 $answeredQuiz->delete();
+            }
         });
     }
 }

@@ -31,8 +31,9 @@ class SiteNavbar extends Component
             ],
         ];
 
-        if (Auth::user() && Auth::user()->is_admin)
+        if (Auth::user() && Auth::user()->is_admin) {
             $this->navbarItems[] = ['title' => 'users', 'url' => route('users.index')];
+        }
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\AnswersService;
 use App\Services\QuestionsService;
+use Illuminate\Http\Request;
 
 class AnswersController extends Controller
 {
@@ -20,7 +20,7 @@ class AnswersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create (int $quiz, int $question)
+    public function create(int $quiz, int $question)
     {
         return view('answers.create', [
             'quiz_id' => $quiz,
@@ -39,7 +39,7 @@ class AnswersController extends Controller
         $answer = $this->answersService->save($request);
 
         return redirect(route('questions.edit', [
-            'quiz' => $quiz, 
+            'quiz' => $quiz,
             'question' => $question,
             'answer' => $answer->id,
         ]));
@@ -52,8 +52,9 @@ class AnswersController extends Controller
     {
         $answer = $this->answersService->get($answer);
 
-        if (!$answer->canBeEditedBy())
+        if (! $answer->canBeEditedBy()) {
             return redirect()->back();
+        }
 
         return view('answers.edit', [
             'quiz_id' => $quiz,
@@ -73,7 +74,7 @@ class AnswersController extends Controller
         $answer = $this->answersService->save($request, $answer);
 
         return redirect(route('questions.edit', [
-            'quiz' => $quiz, 
+            'quiz' => $quiz,
             'question' => $question,
         ]));
     }
@@ -88,6 +89,6 @@ class AnswersController extends Controller
         return redirect(route('questions.edit', [
             'quiz' => $quiz,
             'question' => $question,
-        ])); 
+        ]));
     }
 }

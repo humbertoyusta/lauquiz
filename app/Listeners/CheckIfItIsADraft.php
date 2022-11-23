@@ -3,10 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\QuizCheckIsADraftEvent;
-use App\Events\QuizSavingEvent;
 use App\Models\Quiz;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class CheckIfItIsADraft
 {
@@ -37,18 +34,22 @@ class CheckIfItIsADraft
 
     /**
      * Actually check if a quiz is a draft
-     * @return boolean true if it is a draft, false if it playable
+     *
+     * @return bool true if it is a draft, false if it playable
      */
-    private function isADraft(Quiz $quiz): bool 
+    private function isADraft(Quiz $quiz): bool
     {
         $quiz->load(['questions' => ['correctAnswers']]);
 
-        if (count($quiz->questions) === 0)
+        if (count($quiz->questions) === 0) {
             return true;
-        
-        foreach ($quiz->questions as $question)
-            if (count($question->correctAnswers) === 0)
+        }
+
+        foreach ($quiz->questions as $question) {
+            if (count($question->correctAnswers) === 0) {
                 return true;
+            }
+        }
 
         return false;
     }

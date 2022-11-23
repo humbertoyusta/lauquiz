@@ -49,8 +49,9 @@ class QuestionsController extends Controller
     {
         $question = $this->questionsService->getQuestionWithAnswersAndImage($question);
 
-        if (!$question->canBeEditedBy())
+        if (! $question->canBeEditedBy()) {
             return redirect()->back();
+        }
 
         return view('questions.edit', [
             'quiz_id' => $quiz,

@@ -46,14 +46,14 @@ class Answer extends Model
         $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
 
         // Admins or owners can edit
-        return ($user->is_admin || $user->id == $this->question->quiz->author_id);
+        return $user->is_admin || $user->id == $this->question->quiz->author_id;
     }
 
     // Answer Events
     protected static function booted()
     {
         // Update quiz when updating answer to allow QuizCheckIsADraftEvent event being thrown
-        static::saved(fn($answer) => $answer->question->quiz->update([]));
-        static::deleted(fn($answer) => $answer->question->quiz->update([]));
+        static::saved(fn ($answer) => $answer->question->quiz->update([]));
+        static::deleted(fn ($answer) => $answer->question->quiz->update([]));
     }
 }

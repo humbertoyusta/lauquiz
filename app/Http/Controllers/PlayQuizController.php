@@ -6,7 +6,6 @@ use App\Services\AnsweredQuestionsService;
 use App\Services\AnsweredQuizzesService;
 use App\Services\QuestionsService;
 use App\Services\QuizzesService;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 
@@ -19,20 +18,20 @@ class PlayQuizController extends Controller
         private QuestionsService $questionsService,
         private AnsweredQuestionsService $answeredQuestionsService,
         private AnsweredQuizzesService $answeredQuizzesService,
-    )
-    {}
+    ) {
+    }
 
     /**
      * Displays the playable Quizzes
      */
-    public function index ()
+    public function index()
     {
         $nonPaginatedQuizzes = Cache::remember(
-            'play.index.allquizzes', 
-            config('app.cache_ttl'), 
+            'play.index.allquizzes',
+            config('app.cache_ttl'),
             function () {
                 return $this->quizzesService->getNonDraftQuizzesWithQuestionsAndTags();
-            },  
+            },
         );
 
         $page = request()->get('page', 1);
@@ -51,7 +50,8 @@ class PlayQuizController extends Controller
     /**
      * Displays the page of finished quiz with performance
      */
-    public function show (int $quiz, int $answered_quiz) {
+    public function show(int $quiz, int $answered_quiz)
+    {
         return view('play.show', [
             'quiz' => $this->quizzesService->get($quiz),
             'answeredQuiz' => $this->answeredQuizzesService->getWithPerf($answered_quiz),

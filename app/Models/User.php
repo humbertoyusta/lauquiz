@@ -51,7 +51,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(AnsweredQuiz::class);
     }
-    
+
     public function quizzes()
     {
         return $this->hasMany(Quiz::class, 'author_id');
@@ -60,11 +60,13 @@ class User extends Authenticatable
     // User Events
     protected static function booted()
     {
-        static::created( fn($user) => $user->notify(new RegisterNotification) );
+        static::created(fn ($user) => $user->notify(new RegisterNotification));
         static::deleting(function ($user): bool {
             // If user has quizzes that are not deleted, do not delete the user
-            if ($user->quizzes->count() !== 0)
+            if ($user->quizzes->count() !== 0) {
                 return false;
+            }
+
             return true;
         });
     }

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * AbstractService to be extended by other Services
@@ -12,6 +11,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 abstract class AbstractService implements ServiceInterface
 {
     protected $className = '';
+
     protected $validationRules = [];
 
     /**

@@ -25,17 +25,17 @@ class AnsweredQuestion extends Model
     ];
 
     // AnsweredQuestion Relations
-    public function answer ()
+    public function answer()
     {
         return $this->belongsTo(Answer::class);
     }
 
-    public function answeredQuiz ()
+    public function answeredQuiz()
     {
         return $this->belongsTo(AnsweredQuiz::class);
     }
 
-    public function question ()
+    public function question()
     {
         return $this->belongsTo(Question::class);
     }
@@ -46,7 +46,7 @@ class AnsweredQuestion extends Model
         // Create an Answered Quiz for Answered Question being created if there is not one
         static::creating(
             function ($answeredQuestion) {
-                if (!$answeredQuestion->answered_quiz_id) {
+                if (! $answeredQuestion->answered_quiz_id) {
                     $answeredQuestion->answered_quiz_id = AnsweredQuiz::create([
                         'quiz_id' => $answeredQuestion->question->quiz_id,
                         'user_id' => Auth::user()->id,

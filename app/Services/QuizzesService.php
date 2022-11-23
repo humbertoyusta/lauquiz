@@ -26,14 +26,15 @@ class QuizzesService extends AbstractService
      * Use AbstractService->save.
      * Create or update each Tag from the form.
      */
-    public function save (Request $request, int $id = 0)
+    public function save(Request $request, int $id = 0)
     {
         // Add author_id of logged in user and is_draft to true (is_draft will be changed later by an event)
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
         // If it is update, check if logged in user has access to update
-        if ($id && !Quiz::findOrFail($id)->canBeEditedBy())
+        if ($id && ! Quiz::findOrFail($id)->canBeEditedBy()) {
             abort(403);
+        }
 
         // Actually create or update
         $quiz = parent::save($request, $id);
@@ -44,8 +45,9 @@ class QuizzesService extends AbstractService
         ]);
 
         // Sync tags
-        if ($tagNamesCommaSeparated['tags'])
+        if ($tagNamesCommaSeparated['tags']) {
             $this->syncTags($quiz, $tagNamesCommaSeparated['tags']);
+        }
 
         return $quiz;
     }
@@ -55,10 +57,9 @@ class QuizzesService extends AbstractService
      */
     private function syncTags(Quiz $quiz, string $tagNamesCommaSeparated): void
     {
-        $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn($k) => ucfirst(strtolower(trim($k))));
+        $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn ($k) => ucfirst(strtolower(trim($k))));
 
-        foreach($tagNames as $tagName)
-        {
+        foreach ($tagNames as $tagName) {
             $tagIds[] = $this->tagsService->firstOrCreate([
                 'name' => $tagName,
             ])->id;
@@ -67,7 +68,7 @@ class QuizzesService extends AbstractService
         $quiz->tags()->sync($tagIds);
     }
 
-    public function currentUserQuizzesWithTags (int $perPage)
+    public function currentUserQuizzesWithTags(int $perPage)
     {
         return Quiz::where('author_id', Auth::user()->id)->with('tags')->paginate($perPage);
     }
@@ -82,12 +83,12 @@ class QuizzesService extends AbstractService
         return Quiz::where('id', $id)->with(['questions'])->first();
     }
 
-    public function getQuizzesWithQuestions (int $perPage)
+    public function getQuizzesWithQuestions(int $perPage)
     {
         return Quiz::with(['questions'])->paginate($perPage);
     }
 
-    public function getNonDraftQuizzesWithQuestionsAndTags ()
+    public function getNonDraftQuizzesWithQuestionsAndTags()
     {
         return Quiz::with(['questions', 'tags'])->where('is_draft', false)->get();
     }
