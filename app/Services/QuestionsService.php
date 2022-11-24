@@ -76,6 +76,6 @@ class QuestionsService extends AbstractService
      */
     public function getNextQuestionWithAnswers(int $quizId, int $questionId)
     {
-        return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->first();
+        return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->orderBy('id')->first();
     }
 }
