@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\QuizCheckIsADraftEvent;
+use App\Jobs\CheckIfQuizIsADraft;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,6 +24,7 @@ class Quiz extends Model
         'title',
         'author_id',
         'correct_answer_id',
+        'is_draft',
     ];
 
     // Quiz Relations
@@ -61,11 +63,6 @@ class Quiz extends Model
         // Admins or owners can edit
         return $user->is_admin || $user->id === $this->author_id;
     }
-
-    // Quiz Events
-    protected $dispatchesEvents = [
-        'saving' => QuizCheckIsADraftEvent::class,
-    ];
 
     protected static function booted()
     {

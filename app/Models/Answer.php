@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\QuizCheckIsADraftEvent;
+use App\Jobs\CheckIfQuizIsADraft;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -52,8 +53,8 @@ class Answer extends Model
     // Answer Events
     protected static function booted()
     {
-        // Update quiz when updating answer to allow QuizCheckIsADraftEvent event being thrown
-        static::saved(fn ($answer) => $answer->question->quiz->update([]));
-        static::deleted(fn ($answer) => $answer->question->quiz->update([]));
+        // Dispatching CheckIfQuizIsADraft event
+        static::saved(fn ($answer) => CheckIfQuizIsADraft::dispatch($answer->question->quiz));
+        static::deleted(fn ($answer) => CheckIfQuizIsADraft::dispatch($answer->question->quiz));
     }
 }
