@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Events\QuizCheckIsADraftEvent;
 use App\Jobs\CheckIfQuizIsADraft;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
