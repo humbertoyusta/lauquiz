@@ -1,10 +1,29 @@
 
 # Lauquiz
 
-Simple quiz application, built in laravel in Mobile Web Application Course for Harbour Space University
+Make & Play Quiz WebApp, built in Laravel for Mobile Web Application Course at Harbour Space University
+
+## Features
+
+- Play a quiz, answering its questions
+
+- See your results, how many answers are correct
+
+- See the scoreboard of a quiz
+
+- Create a quiz, create questions and answers for it
+
+- Upload and use photos in questions
+
+## Some extras
+
+- Creates answered quizzes and answered questions when playing a quiz
+
+- Check if a quiz is a draft, using a dispatched job and deleting cache (of the quizzes list) after updates the quiz
+
 ## Installation
 
-First sure you have php and composer installed
+First make sure you have php and composer installed
 
 1. Clone the project and cd into the folder
 
@@ -37,16 +56,10 @@ First sure you have php and composer installed
   ./vendor/bin/sail up -d
 ```
 
-5. Migrate the database
+5. Migrate and seed the database
 
 ```bash
   ./vendor/bin/sail artisan migrate:fresh --seed
-```
-
-6. Generate app key
-
-```bash
-  ./vendor/bin/sail artisan key:generate
 ```
 
 ## Authors
