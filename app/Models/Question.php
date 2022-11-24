@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\QuizCheckIsADraftEvent;
+use App\Jobs\CheckIfQuizIsADraft;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -76,12 +76,12 @@ class Question extends Model implements HasMedia
     protected static function booted()
     {
         static::saved(function ($question) {
-            // Update Quiz when saving question to allow QuizCheckIsADraftEvent event being thrown
-            $question->quiz->update([]);
+            // Dispatching CheckIfQuizIsADraft event
+            CheckIfQuizIsADraft::dispatch($question->quiz);
         });
         static::deleted(function ($question) {
-            // Update Quiz when deleting question to allow QuizCheckIsADraftEvent event being thrown
-            $question->quiz->update([]);
+            // Dispatching CheckIfQuizIsADraft event
+            CheckIfQuizIsADraft::dispatch($question->quiz);
         });
         static::deleting(function ($question) {
             // Cascade Deletes
