@@ -53,9 +53,13 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'flare'],
             'ignore_exceptions' => false,
         ],
+
+        'flare' => [
+            'driver' => 'flare',
+        ],        
 
         'single' => [
             'driver' => 'single',
