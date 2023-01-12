@@ -36,6 +36,13 @@ return [
             'throw' => false,
         ],
 
+        'backups' => [
+            // TO DO - CHANGE TO S3
+            'driver' => 'local',
+            'root' => storage_path('app'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
