@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\WeatherAPIException;
 use App\Services\Interfaces\WeatherAPIInterface;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Http;
 
 class WeatherForecaService implements WeatherAPIInterface
@@ -30,14 +33,13 @@ class WeatherForecaService implements WeatherAPIInterface
     private function request(
         string $method, 
         string $url, 
-        array $parameters = [], 
-        bool $shouldGetToken = false
+        array $parameters = []
     )
     {
         $headers = [];
 
-        if (!$shouldGetToken && !$this->access_token)
-            $this->access_token = $this->getToken();
+        if (!$this->access_token)
+            $this->getToken();
             
         $headers['Authorization'] = 'Bearer '.$this->access_token;
 
@@ -52,7 +54,13 @@ class WeatherForecaService implements WeatherAPIInterface
 
     private function getToken () 
     {
-        return $this->request('post', '/authorize/token', $this->user, true)->access_token;
+        try {
+            $response = Http::post($this->baseURL.'/authorize/token', $this->user);
+
+            $this->access_token = json_decode($response)->access_token;
+        } catch (Exception $e) {
+            throw new WeatherAPIException('Authentication in external API failed');
+        }
     }
 
     private function getLocationId ()
