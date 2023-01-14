@@ -65,6 +65,7 @@ class WeatherForecaService
         $forecastRequest = $this->request('get', '/api/v1/forecast/daily/'.$location);
 
         return [
+            'city' => $this->city,
             'temperature' => $currentRequest->current->temperature,
             'feelsLikeTemp' => $currentRequest->current->feelsLikeTemp,
             'maxTemp' => $forecastRequest->forecast[0]->maxTemp,
