@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Services\Interfaces\WeatherAPIInterface;
 use Illuminate\Support\Facades\Http;
 
-class WeatherForecaService
+class WeatherForecaService implements WeatherAPIInterface
 {
     private array $user;
 
@@ -63,7 +64,7 @@ class WeatherForecaService
         )->locations[0]->id;
     }
 
-    public function getWeatherOverview () 
+    public function getWeatherOverview (): array
     {
         $location = $this->getLocationId();
 
