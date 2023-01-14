@@ -6,18 +6,25 @@ use Illuminate\Support\Facades\Http;
 
 class WeatherForecaService
 {
-    private array $user = [
-        'user' => 'humbertoyusta02',
-        'password' => 'KcVvTHvJau9q',
-    ];
+    private array $user;
 
     private string $access_token = ''; 
 
-    private string $baseURL = 'https://pfa.foreca.com';
+    private string $baseURL, $city, $countryCode;
 
-    private string $city = 'Barcelona';
+    public function __construct()
+    {
+        $this->user = [
+            'user' => config('foreca.user'),
+            'password' => config('foreca.password'),
+        ];
 
-    private string $countryCode = 'es';
+        $this->baseURL = config('foreca.base_url');
+
+        $this->countryCode = config('foreca.country_code');
+
+        $this->city = config('foreca.city');
+    }
 
     private function request(
         string $method, 
