@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\WeatherForecaService;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
@@ -16,11 +17,15 @@ class WelcomeController extends Controller
 
     public function __invoke()
     {
-        $weatherOverview = Cache::remember(
-            'welcome.weatherOverview',
-            config('app.cache_long_ttl'),
-            fn() => $this->weatherForecaService->getWeatherOverview()
-        );
+        try {
+            $weatherOverview = Cache::remember(
+                'welcome.weatherOverview',
+                config('app.cache_long_ttl'),
+                fn() => $this->weatherForecaService->getWeatherOverview()
+            );
+        } catch (Exception $e) {
+            $weatherOverview = null;
+        }
 
         return view(
             'welcome', 
