@@ -222,4 +222,5 @@ return [
     */
 
     'cache_ttl' => env('CACHE_TTL', 180),
+    'cache_long_ttl' => env('CACHE_LONG_TTL', 3600),
 ];
