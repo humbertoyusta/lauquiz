@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Exceptions\WeatherAPIException;
 use App\Services\Interfaces\WeatherAPIInterface;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
+use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Http;
 
 class WeatherForecaService implements WeatherAPIInterface
@@ -65,23 +65,25 @@ class WeatherForecaService implements WeatherAPIInterface
 
     private function getLocationId ()
     {
+        $location = Location::get();
+
         return $this->request(
             'get', 
-            '/api/v1/location/search/'.$this->city, 
-            ['country' => $this->countryCode],
+            '/api/v1/location/search/'.$location->cityName, 
+            ['country' => $location->countryCode],
         )->locations[0]->id;
     }
 
     public function getWeatherOverview (): array
     {
-        $location = $this->getLocationId();
+        $location = Location::get();
 
-        $currentRequest = $this->request('get', '/api/v1/current/'.$location);
+        $currentRequest = $this->request('get', '/api/v1/current/'.$location->longitude.','.$location->latitude);
 
-        $forecastRequest = $this->request('get', '/api/v1/forecast/daily/'.$location);
+        $forecastRequest = $this->request('get', '/api/v1/forecast/daily/'.$location->longitude.','.$location->latitude);
 
         return [
-            'city' => $this->city,
+            'city' => $location->cityName,
             'temperature' => $currentRequest->current->temperature,
             'feelsLikeTemp' => $currentRequest->current->feelsLikeTemp,
             'maxTemp' => $forecastRequest->forecast[0]->maxTemp,

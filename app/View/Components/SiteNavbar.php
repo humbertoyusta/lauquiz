@@ -27,7 +27,11 @@ class SiteNavbar extends Component
             ],
             [
                 'title' => 'Play',
-                'url' => '/play',
+                'url' => route('play.index'),
+            ],
+            [
+                'title' => 'Weather',
+                'url' => route('weather'),
             ],
         ];
 
