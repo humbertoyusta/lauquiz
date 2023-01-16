@@ -6,6 +6,7 @@ use App\Http\Controllers\PlayQuizController;
 use App\Http\Controllers\QuestionsController;
 use App\Http\Controllers\QuizzesController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 // Public Routes
 Route::get('/', WelcomeController::class)->name('welcome');
+
+Route::get('/weather', WeatherController::class)->name('weather');
 
 // Logged In Routes
 Route::middleware(['auth'])->group(function () {
