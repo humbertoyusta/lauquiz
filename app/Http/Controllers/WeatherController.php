@@ -8,13 +8,6 @@ use Illuminate\Http\Request;
 
 class WeatherController extends Controller
 {
-    private WeatherForecaService $weatherForecaService;
-
-    public function __construct(WeatherForecaService $weatherForecaService)
-    {
-        $this->weatherForecaService = $weatherForecaService;
-    }
-
     /**
      * Handle the incoming request.
      *
@@ -23,15 +16,6 @@ class WeatherController extends Controller
      */
     public function __invoke(Request $request)
     {
-        try {
-            $weatherOverview = $this->weatherForecaService->getWeatherOverview();
-        } catch (Exception $e) {
-            $weatherOverview = null;
-        }
-
-        return view(
-            'weather', 
-            ['weatherOverview' => $weatherOverview],
-        );
+        return view('weather');
     }
 }
