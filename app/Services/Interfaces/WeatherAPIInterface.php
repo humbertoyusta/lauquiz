@@ -4,5 +4,7 @@ namespace App\Services\Interfaces;
 
 interface WeatherAPIInterface 
 {
-    public function getWeatherOverview(): array;
+    public function getTodayOverview(): array;
+
+    public function getWeeklyOverview(): array;
 }
