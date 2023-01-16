@@ -11,7 +11,9 @@ class SiteLayout extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        public bool $usesLivewire = false,
+    )
     {
         //
     }

@@ -14,7 +14,7 @@ class WeatherForecaService implements WeatherAPIInterface
 
     private string $access_token = ''; 
 
-    private string $baseURL, $city, $countryCode;
+    private string $baseURL;
 
     public function __construct()
     {
@@ -24,10 +24,6 @@ class WeatherForecaService implements WeatherAPIInterface
         ];
 
         $this->baseURL = config('foreca.base_url');
-
-        $this->countryCode = config('foreca.country_code');
-
-        $this->city = config('foreca.city');
     }
 
     private function request(
@@ -74,7 +70,7 @@ class WeatherForecaService implements WeatherAPIInterface
         )->locations[0]->id;
     }
 
-    public function getWeatherOverview (): array
+    public function getTodayOverview (): array
     {
         $location = Location::get();
 
@@ -83,11 +79,27 @@ class WeatherForecaService implements WeatherAPIInterface
         $forecastRequest = $this->request('get', '/api/v1/forecast/daily/'.$location->longitude.','.$location->latitude);
 
         return [
-            'city' => $location->cityName,
             'temperature' => $currentRequest->current->temperature,
             'feelsLikeTemp' => $currentRequest->current->feelsLikeTemp,
             'maxTemp' => $forecastRequest->forecast[0]->maxTemp,
             'minTemp' => $forecastRequest->forecast[0]->minTemp,
         ];
+    }
+
+    public function getWeeklyOverview (): array
+    {
+        $location = Location::get();
+
+        $forecastRequest = $this->request(
+            'get', 
+            '/api/v1/forecast/daily/'.$location->longitude.','.$location->latitude
+        );
+
+        return collect($forecastRequest->forecast)
+            ->map(
+                fn($forecast) => 
+                    collect($forecast)->only(['maxTemp', 'minTemp', 'date'])
+            )
+            ->toArray();
     }
 }
