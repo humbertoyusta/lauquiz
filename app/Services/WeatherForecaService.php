@@ -14,7 +14,7 @@ class WeatherForecaService implements WeatherAPIInterface
 
     private string $access_token = ''; 
 
-    private string $baseURL, $city, $countryCode;
+    private string $baseURL;
 
     public function __construct()
     {
@@ -24,10 +24,6 @@ class WeatherForecaService implements WeatherAPIInterface
         ];
 
         $this->baseURL = config('foreca.base_url');
-
-        $this->countryCode = config('foreca.country_code');
-
-        $this->city = config('foreca.city');
     }
 
     private function request(
