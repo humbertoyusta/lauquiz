@@ -4,14 +4,14 @@
     @if($isDaily)
         <h4>Today's Weather overview:</h4>
         <p class="card-text">
-            Currently, on {{$city}}, the temperature is 
+            Currently, the temperature is 
             {{$todayOverview['temperature']}} °C, it feels like 
             {{$todayOverview['feelsLikeTemp']}} °C, the maximum temperature today is
             {{$todayOverview['maxTemp']}} °C, and the minimum is
             {{$todayOverview['minTemp']}} °C
         </p>
     @else
-        <h4>Weekly Weather Overview: (On {{$city}})</h4>
+        <h4>Weekly Weather Overview:</h4>
         <table class="table">
             <thead>
                 <tr>
