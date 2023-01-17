@@ -12,7 +12,7 @@ class WeatherOverview extends Component
 
     public array $weeklyOverview = [];
 
-    public string $city;
+    public string $city = '';
 
     public bool $isDaily = true;
 
