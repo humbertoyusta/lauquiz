@@ -1,5 +1,5 @@
 <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
-    <x-form-multipart route="{{route('questions.update', ['quiz' => $question->quiz_id, 'question' => $question->id])}}" method="PUT" button_name="Edit Question">
+    <x-form-multipart route="{{route('questions.update', ['quiz' => $question->quiz_id, 'question' => $question->id])}}" method="PUT" button_name="Upload Photo">
         @csrf
         <x-livewire-input-text name="content" :errors="$errors" />
         <x-file-upload name="image" :errors="$errors"></x-file-upload>
