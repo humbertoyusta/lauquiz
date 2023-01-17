@@ -30,7 +30,7 @@
                         @yield('message')
                     </div>
                 </div>
-                <p>
+                <p class="text-lg text-gray-600">
                     @yield('description')
                 </p>
             </div>
