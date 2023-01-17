@@ -78,4 +78,13 @@ class QuestionsService extends AbstractService
     {
         return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->orderBy('id')->first();
     }
+
+    public function getImageFromQuestion(Question $question) 
+    {
+        if ($question->getMedia()->first()) {
+            return $question->media->first()->getUrl('display');
+        } else {
+            return '/images/question-mark.png';
+        }
+    }
 }
