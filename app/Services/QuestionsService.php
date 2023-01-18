@@ -24,11 +24,6 @@ class QuestionsService extends AbstractService
      */
     public function save(Request $request, int $id = 0)
     {
-        // If it is update, check if logged in user has access to update
-        if ($id && ! Question::findOrFail($id)->canBeEditedBy()) {
-            abort(403);
-        }
-
         // Actually creating or updating the Question
         $question = parent::save($request, $id);
 
@@ -79,7 +74,7 @@ class QuestionsService extends AbstractService
         return Question::where('quiz_id', $quizId)->where('id', '>', $questionId)->with('answers')->orderBy('id')->first();
     }
 
-    public function getImageFromQuestion(Question $question) 
+    public function getImageFromQuestion(Question $question)
     {
         if ($question->getMedia()->first()) {
             return $question->media->first()->getUrl('display');

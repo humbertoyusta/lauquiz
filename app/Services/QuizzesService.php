@@ -31,11 +31,6 @@ class QuizzesService extends AbstractService
         // Add author_id of logged in user and is_draft to true (is_draft will be changed later by an event)
         $request->request->add(['author_id' => Auth::user()->id, 'is_draft' => true]);
 
-        // If it is update, check if logged in user has access to update
-        if ($id && ! Quiz::findOrFail($id)->canBeEditedBy()) {
-            abort(403);
-        }
-
         // Actually create or update
         $quiz = parent::save($request, $id);
 

@@ -46,9 +46,6 @@ class QuestionParentComponent extends Component
 
     public function render()
     {
-        if (!$this->question->canBeEditedBy())
-            abort(403);
-
         return view('livewire.question-parent-component');
     }
 }

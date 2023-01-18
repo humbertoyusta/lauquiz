@@ -95,6 +95,10 @@ class Question extends Model implements HasMedia
     // Question Events
     protected static function booted()
     {
+        static::saving(function ($question) {
+            if (!$question->canBeEditedBy())
+                abort(403);
+        });
         static::saved(function ($question) {
             // Dispatching CheckIfQuizIsADraft event
             CheckIfQuizIsADraft::dispatch($question->quiz);

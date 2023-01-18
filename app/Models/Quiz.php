@@ -64,6 +64,10 @@ class Quiz extends Model
 
     protected static function booted()
     {
+        static::saving(function ($quiz) {
+            if (!$quiz->canBeEditedBy())
+                abort(403);
+        });
         static::saved(function ($quiz) {
             // Delete quizzes cache after modifying a Quiz
             Cache::forget('play.index.allquizzes');
