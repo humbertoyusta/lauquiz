@@ -22,21 +22,23 @@ class AnswerComponent extends Component
         $this->is_correct = $answer->is_correct;
     }
 
-    public function deleteAnswer ()
+    public function delete ()
     {
         $this->answer->delete();
+
+        $this->emit('AnswerDeletedEvent');
     }
 
-    public function render()
+    public function update ()
     {
-        if (!$this->answer->canBeEditedBy())
-            abort(403);
-
         $this->answer->update([
             'content' => $this->content,
             'is_correct' => $this->is_correct,
         ]);
+    }
 
+    public function render()
+    {
         return view('livewire.answer-component');
     }
 }
