@@ -10,7 +10,7 @@
             <x-get-button :route="route('answers.create', ['quiz' => $question->quiz_id, 'question' => $question->id])" name="Add new Answer" />
         </x-simple-bar>
         @foreach($question->answers as $answer)
-            <livewire:answer-component :answer="$answer" />
+            <livewire:answer-component :answer="$answer" wire:key="{{$answer->id}}" />
         @endforeach
     </ol>
     <div class="mt-4">
