@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class QuestionComponent extends Component
+class QuestionParentComponent extends Component
 {
     use WithFileUploads;
 
@@ -49,6 +49,6 @@ class QuestionComponent extends Component
         if (!$this->question->canBeEditedBy())
             abort(403);
 
-        return view('livewire.question-component');
+        return view('livewire.question-parent-component');
     }
 }

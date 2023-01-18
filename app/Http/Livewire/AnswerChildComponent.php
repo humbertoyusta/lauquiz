@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Answer;
 use Livewire\Component;
 
-class AnswerComponent extends Component
+class AnswerChildComponent extends Component
 {
     public string $content;
 
@@ -39,6 +39,6 @@ class AnswerComponent extends Component
 
     public function render()
     {
-        return view('livewire.answer-component');
+        return view('livewire.answer-child-component');
     }
 }
