@@ -6,6 +6,7 @@ use App\Jobs\CheckIfQuizIsADraft;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -61,6 +62,25 @@ class Question extends Model implements HasMedia
 
         // Admins or owners can edit
         return $user->is_admin || $user->id == $this->quiz->author_id;
+    }
+
+    public function storeImage ($image)
+    {
+        $this->clearMediaCollection();
+
+        $this
+            ->addMedia($image)
+            ->usingFileName($image->hashName())
+            ->toMediaCollection();
+    }
+
+    public function getImage ()
+    {
+        if ($this->getMedia()->first()) {
+            return $this->media->first()->getUrl('display');
+        } else {
+            return '/images/question-mark.png';
+        }
     }
 
     // Question Media Conversions
