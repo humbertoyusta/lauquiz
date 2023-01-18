@@ -3,15 +3,19 @@
 namespace App\Http\Livewire;
 
 use App\Models\Question;
+use Illuminate\Http\UploadedFile;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class QuestionComponent extends Component
 {
+    use WithFileUploads;
+
     public Question $question;
 
     public string $content;
 
-    public string $image;
+    public $image;
 
     protected $listeners = ['AnswerDeletedEvent' => 'handleAnswerDeleted'];
 
@@ -20,13 +24,11 @@ class QuestionComponent extends Component
         $this->question->refresh();
     }
 
-    public function mount(Question $question, $image) {
+    public function mount(Question $question) {
 
         $this->question = $question;
 
         $this->content = $question->content;
-
-        $this->image = $image;
     }
 
     public function update ()
@@ -34,6 +36,12 @@ class QuestionComponent extends Component
         $this->question->update([
             'content' => $this->content,
         ]);
+
+        if ($this->image) {
+            $this->question->storeImage($this->image);
+        }
+
+        $this->question->refresh();
     }
 
     public function render()
