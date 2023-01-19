@@ -62,6 +62,19 @@ class Quiz extends Model
         return $user->is_admin || $user->id === $this->author_id;
     }
 
+    public function syncTags(string $tagNamesCommaSeparated): void
+    {
+        $tagNames = collect(explode(',', $tagNamesCommaSeparated))->map(fn ($k) => ucfirst(strtolower(trim($k))));
+
+        foreach ($tagNames as $tagName) {
+            $tagIds[] = Tag::firstOrCreate([
+                'name' => $tagName,
+            ])->id;
+        }
+
+        $this->tags()->sync($tagIds);
+    }
+
     protected static function booted()
     {
         static::saving(function ($quiz) {
