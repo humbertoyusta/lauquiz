@@ -1,8 +1,7 @@
 <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
     <div class="m-4">
         <x-livewire-input-text name="title" :errors="$errors" />
-        <x-livewire-input-text name="tags" :errors="$errors" />
-        <label for="tags">Comma Separated</label>
+        <x-livewire-input-text name="tags" placeholder_extra="(Comma separated)" :errors="$errors" />
         <x-livewire-button method="update" name="Apply Update" />
     </div>
     <ol class="list-group mt-5">
