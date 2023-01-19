@@ -2,7 +2,7 @@
 
 namespace App\Services\Interfaces;
 
-interface WeatherAPIInterface 
+interface WeatherApiInterface
 {
     public function getTodayOverview(): array;
 

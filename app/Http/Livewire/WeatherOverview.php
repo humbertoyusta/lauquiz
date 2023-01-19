@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Facades\WeatherApiFacade;
 use App\Services\WeatherForecaService;
 use Livewire\Component;
 use Stevebauman\Location\Facades\Location;
@@ -19,20 +20,31 @@ class WeatherOverview extends Component
     public function mount ()
     {
         $this->city = Location::get()->cityName;
+
+        if ($this->isDaily)
+            $this->getDailyOverview();
+        else
+            $this->getWeeklyOverview();
+    }
+
+    public function getDailyOverview ()
+    {
+        $this->isDaily = true;
+
+        if (!count($this->todayOverview))
+            $this->todayOverview = WeatherApiFacade::getTodayOverview();
+    }
+
+    public function getWeeklyOverview ()
+    {
+        $this->isDaily = false;
+
+        if (!count($this->weeklyOverview))
+            $this->weeklyOverview = WeatherApiFacade::getWeeklyOverview();
     }
 
     public function render()
     {
-        $weatherForecaService = new WeatherForecaService();
-
-        if ($this->isDaily) {
-            if (!count($this->todayOverview))
-                $this->todayOverview = $weatherForecaService->getTodayOverview();
-        } else {
-            if (!count($this->weeklyOverview))
-                $this->weeklyOverview = $weatherForecaService->getWeeklyOverview();
-        }
-
         return view('livewire.weather-overview');
     }
 }

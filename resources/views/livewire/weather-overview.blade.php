@@ -1,11 +1,11 @@
 <div class="card-body">
-    <a class="btn btn-outline-primary" wire:click.prevent="$set('isDaily', true)">Daily</a>
-    <a class="btn btn-outline-primary" wire:click.prevent="$set('isDaily', false)">Weekly</a>
+    <a class="btn btn-outline-primary" wire:click.prevent="getDailyOverview">Daily</a>
+    <a class="btn btn-outline-primary" wire:click.prevent="getWeeklyOverview">Weekly</a>
     @if($isDaily)
         <h4>Today's Weather overview:</h4>
         <p class="card-text">
-            Today, on {{$city}}, the temperature is 
-            {{$todayOverview['temperature']}} °C, it feels like 
+            Today, on {{$city}}, the temperature is
+            {{$todayOverview['temperature']}} °C, it feels like
             {{$todayOverview['feelsLikeTemp']}} °C, the maximum temperature today is
             {{$todayOverview['maxTemp']}} °C, and the minimum is
             {{$todayOverview['minTemp']}} °C
@@ -29,6 +29,6 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>    
+        </table>
     @endif
 </div>
