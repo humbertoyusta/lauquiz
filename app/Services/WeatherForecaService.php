@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\WeatherAPIException;
+use App\Exceptions\WeatherApiException;
+use App\Exceptions\WeatherApiLoginException;
 use App\Services\Interfaces\WeatherAPIInterface;
 use Exception;
 use Stevebauman\Location\Facades\Location;
@@ -60,8 +61,8 @@ class WeatherForecaService implements WeatherAPIInterface
             $response = Http::post($this->baseUrl.'/'.$this->loginEndpoint, $this->user);
 
             $this->access_token = json_decode($response)->access_token;
-        } catch (Exception $e) {
-            throw new WeatherAPIException('Authentication in external API failed');
+        } catch (Exception $exception) {
+            throw new WeatherApiLoginException('Failed authentication: '.$exception->getMessage());
         }
     }
 
@@ -69,32 +70,39 @@ class WeatherForecaService implements WeatherAPIInterface
     {
         $location = Location::get();
 
-        $currentRequest = $this->request('get', $this->currentEndpoint.'/'.$location->longitude.','.$location->latitude);
+        try {
+            $currentRequest = $this->request('get', $this->currentEndpoint . '/' . $location->longitude . ',' . $location->latitude);
 
-        $forecastRequest = $this->request('get', $this->dailyForecastEndpoint.'/'.$location->longitude.','.$location->latitude);
+            $forecastRequest = $this->request('get', $this->dailyForecastEndpoint . '/' . $location->longitude . ',' . $location->latitude);
 
-        return [
-            'temperature' => $currentRequest->current->temperature,
-            'feelsLikeTemp' => $currentRequest->current->feelsLikeTemp,
-            'maxTemp' => $forecastRequest->forecast[0]->maxTemp,
-            'minTemp' => $forecastRequest->forecast[0]->minTemp,
-        ];
+            return [
+                'temperature' => $currentRequest->current->temperature,
+                'feelsLikeTemp' => $currentRequest->current->feelsLikeTemp,
+                'maxTemp' => $forecastRequest->forecast[0]->maxTemp,
+                'minTemp' => $forecastRequest->forecast[0]->minTemp,
+            ];
+        } catch (Exception $exception) {
+            throw new WeatherApiException('Failed Getting Today Overview: '.$exception->getMessage());
+        }
     }
 
     public function getWeeklyOverview (): array
     {
         $location = Location::get();
 
-        $forecastRequest = $this->request(
-            'get',
-            $this->dailyForecastEndpoint.'/'.$location->longitude.','.$location->latitude
-        );
+        try {
+            $forecastRequest = $this->request(
+                'get',
+                $this->dailyForecastEndpoint . '/' . $location->longitude . ',' . $location->latitude
+            );
 
-        return collect($forecastRequest->forecast)
-            ->map(
-                fn($forecast) =>
-                    collect($forecast)->only(['maxTemp', 'minTemp', 'date'])
-            )
-            ->toArray();
+            return collect($forecastRequest->forecast)
+                ->map(
+                    fn($forecast) => collect($forecast)->only(['maxTemp', 'minTemp', 'date'])
+                )
+                ->toArray();
+        } catch (Exception $exception) {
+            throw new WeatherApiException('Failed Getting Weekly Overview: '.$exception->getMessage());
+        }
     }
 }
