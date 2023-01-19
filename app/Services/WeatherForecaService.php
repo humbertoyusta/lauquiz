@@ -12,23 +12,29 @@ class WeatherForecaService implements WeatherAPIInterface
 {
     private array $user;
 
-    private string $access_token = ''; 
+    private string $access_token = '';
 
-    private string $baseURL;
+    private string $baseUrl, $loginEndpoint, $currentEndpoint, $dailyForecastEndpoint;
 
     public function __construct()
     {
         $this->user = [
-            'user' => config('foreca.user'),
-            'password' => config('foreca.password'),
+            'user' => config('weatherapi.foreca.user'),
+            'password' => config('weatherapi.foreca.password'),
         ];
 
-        $this->baseURL = config('foreca.base_url');
+        $this->baseUrl = config('weatherapi.foreca.base_url');
+
+        $this->loginEndpoint = config('weatherapi.foreca.login_endpoint');
+
+        $this->currentEndpoint = config('weatherapi.foreca.current_endpoint');
+
+        $this->dailyForecastEndpoint = config('weatherapi.foreca.daily_forecast_endpoint');
     }
 
     private function request(
-        string $method, 
-        string $url, 
+        string $method,
+        string $url,
         array $parameters = []
     )
     {
@@ -36,22 +42,22 @@ class WeatherForecaService implements WeatherAPIInterface
 
         if (!$this->access_token)
             $this->getToken();
-            
+
         $headers['Authorization'] = 'Bearer '.$this->access_token;
 
         if ($method == 'post') {
-            $request = Http::withHeaders($headers)->post($this->baseURL.$url, $parameters);
+            $request = Http::withHeaders($headers)->post($this->baseUrl.'/'.$url, $parameters);
         } else {
-            $request = Http::withHeaders($headers)->get($this->baseURL.$url, $parameters);
+            $request = Http::withHeaders($headers)->get($this->baseUrl.'/'.$url, $parameters);
         }
 
         return json_decode($request->body());
     }
 
-    private function getToken () 
+    private function getToken ()
     {
         try {
-            $response = Http::post($this->baseURL.'/authorize/token', $this->user);
+            $response = Http::post($this->baseUrl.'/'.$this->loginEndpoint, $this->user);
 
             $this->access_token = json_decode($response)->access_token;
         } catch (Exception $e) {
@@ -59,24 +65,13 @@ class WeatherForecaService implements WeatherAPIInterface
         }
     }
 
-    private function getLocationId ()
-    {
-        $location = Location::get();
-
-        return $this->request(
-            'get', 
-            '/api/v1/location/search/'.$location->cityName, 
-            ['country' => $location->countryCode],
-        )->locations[0]->id;
-    }
-
     public function getTodayOverview (): array
     {
         $location = Location::get();
 
-        $currentRequest = $this->request('get', '/api/v1/current/'.$location->longitude.','.$location->latitude);
+        $currentRequest = $this->request('get', $this->currentEndpoint.'/'.$location->longitude.','.$location->latitude);
 
-        $forecastRequest = $this->request('get', '/api/v1/forecast/daily/'.$location->longitude.','.$location->latitude);
+        $forecastRequest = $this->request('get', $this->dailyForecastEndpoint.'/'.$location->longitude.','.$location->latitude);
 
         return [
             'temperature' => $currentRequest->current->temperature,
@@ -91,13 +86,13 @@ class WeatherForecaService implements WeatherAPIInterface
         $location = Location::get();
 
         $forecastRequest = $this->request(
-            'get', 
-            '/api/v1/forecast/daily/'.$location->longitude.','.$location->latitude
+            'get',
+            $this->dailyForecastEndpoint.'/'.$location->longitude.','.$location->latitude
         );
 
         return collect($forecastRequest->forecast)
             ->map(
-                fn($forecast) => 
+                fn($forecast) =>
                     collect($forecast)->only(['maxTemp', 'minTemp', 'date'])
             )
             ->toArray();
