@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Quiz;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class QuizParentComponent extends Component
@@ -22,11 +23,20 @@ class QuizParentComponent extends Component
 
     public function update ()
     {
-        $this->quiz->update([
-            'title' => $this->title,
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $this->quiz->syncTags($this->tags);
+            $this->quiz->update([
+                'title' => $this->title,
+            ]);
+
+            $this->quiz->syncTags($this->tags);
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
 
         $this->quiz->refresh();
 
