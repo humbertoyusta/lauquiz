@@ -4,12 +4,12 @@ namespace App\Services;
 
 use App\Exceptions\WeatherApiException;
 use App\Exceptions\WeatherApiLoginException;
-use App\Services\Interfaces\WeatherAPIInterface;
+use App\Services\Interfaces\WeatherApiInterface;
 use Exception;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Support\Facades\Http;
 
-class WeatherForecaService implements WeatherAPIInterface
+class WeatherForecaService implements WeatherApiInterface
 {
     private array $user;
 
@@ -81,6 +81,8 @@ class WeatherForecaService implements WeatherAPIInterface
                 'maxTemp' => $forecastRequest->forecast[0]->maxTemp,
                 'minTemp' => $forecastRequest->forecast[0]->minTemp,
             ];
+        } catch (WeatherApiLoginException $exception) {
+            throw $exception;
         } catch (Exception $exception) {
             throw new WeatherApiException('Failed Getting Today Overview: '.$exception->getMessage());
         }
@@ -101,6 +103,8 @@ class WeatherForecaService implements WeatherAPIInterface
                     fn($forecast) => collect($forecast)->only(['maxTemp', 'minTemp', 'date'])
                 )
                 ->toArray();
+        } catch (WeatherApiLoginException $exception) {
+            throw $exception;
         } catch (Exception $exception) {
             throw new WeatherApiException('Failed Getting Weekly Overview: '.$exception->getMessage());
         }
