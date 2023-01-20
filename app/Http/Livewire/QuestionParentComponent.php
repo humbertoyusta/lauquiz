@@ -33,6 +33,9 @@ class QuestionParentComponent extends Component
 
     public function update ()
     {
+        if (!$this->question->canBeEditedBy())
+            abort(403);
+
         $this->question->update([
             'content' => $this->content,
         ]);

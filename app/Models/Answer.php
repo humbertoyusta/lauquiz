@@ -52,10 +52,6 @@ class Answer extends Model
     // Answer Events
     protected static function booted()
     {
-        static::saving(function ($answer) {
-            if (!$answer->canBeEditedBy())
-                abort(403);
-        });
         // Dispatching CheckIfQuizIsADraft event
         static::saved(fn ($answer) => CheckIfQuizIsADraft::dispatch($answer->question->quiz));
         static::deleted(fn ($answer) => CheckIfQuizIsADraft::dispatch($answer->question->quiz));
