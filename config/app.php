@@ -223,4 +223,8 @@ return [
 
     'cache_ttl' => env('CACHE_TTL', 180),
     'cache_long_ttl' => env('CACHE_LONG_TTL', 3600),
+
+    'quizzes' => [
+        'default_price' => env('QUIZZES_DEFAULT_PRICE', 150), // in 0.01 * eur
+    ],
 ];

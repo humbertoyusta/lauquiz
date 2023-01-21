@@ -9,6 +9,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\BuyQuizController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::get('/weather', WeatherController::class)->name('weather');
 // Logged In Routes
 Route::middleware(['auth'])->group(function () {
     Route::resource('quizzes', QuizzesController::class);
+
+    Route::get('quizzes/buy/{quiz}', [BuyQuizController::class, 'show'])->name('quizzes.buy');
 
     Route::prefix('quizzes/{quiz}')->group(function () {
         // Displays scoreboard of a quiz

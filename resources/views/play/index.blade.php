@@ -6,10 +6,15 @@
             <ol class="list-group">
                 @foreach($quizzes as $quiz)
                     <x-bar :text="$quiz['title']" :extra_text="'Tags: '.$quiz->tags->pluck('name')->implode(', ')">
-                        <div class="d-flex justify-content-between w-25"> 
+                        <div class="d-flex justify-content-between w-25">
                             <x-get-button :route="route('play.questions.show', ['quiz' => $quiz->id, 'question' => $quiz->questions->first()->id])" name="Play" />
                             <x-get-button :route="route('quizzes.scoreboard', ['quiz' => $quiz->id])" name="Scoreboard"></x-get-button>
                         </div>
+                        @if(!$quiz->owner_id)
+                            <x-get-button :route="route('quizzes.buy', ['quiz' => $quiz->id])" name="Buy for {{''.intdiv(config('app.quizzes.default_price'), 100).'.'.(config('app.quizzes.default_price') % 100).' €'}}" />
+                        @else
+                            Owned by {{$quiz->owner->name}}
+                        @endif
                     </x-bar>
                 @endforeach
             </ol>
