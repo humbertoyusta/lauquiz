@@ -14,6 +14,6 @@ class AnswerSeeder extends Seeder
      */
     public function run()
     {
-        Answer::factory(DatabaseSeeder::ANSWERS_AMOUNT)->create();
+        Answer::factory(DatabaseSeeder::ANSWERS_AMOUNT)->createQuietly();
     }
 }

@@ -31,8 +31,21 @@ class QuestionParentComponent extends Component
         $this->content = $question->content;
     }
 
+    public function updatedImage ()
+    {
+        if (!$this->question->canBeEditedBy())
+            abort(403);
+
+        $this->question->storeImage($this->image);
+
+        $this->question->refresh();
+    }
+
     public function update ()
     {
+        if (!$this->question->canBeEditedBy())
+            abort(403);
+
         $this->question->update([
             'content' => $this->content,
         ]);

@@ -31,6 +31,9 @@ class AnswerChildComponent extends Component
 
     public function update ()
     {
+        if (!$this->answer->canBeEditedBy())
+            abort(403);
+
         $this->answer->update([
             'content' => $this->content,
             'is_correct' => $this->is_correct,

@@ -14,6 +14,6 @@ class AnsweredQuizSeeder extends Seeder
      */
     public function run()
     {
-        AnsweredQuiz::factory(DatabaseSeeder::ANSWERED_QUIZZES_AMOUNT)->create();
+        AnsweredQuiz::factory(DatabaseSeeder::ANSWERED_QUIZZES_AMOUNT)->createQuietly();
     }
 }

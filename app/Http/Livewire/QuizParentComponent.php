@@ -26,6 +26,9 @@ class QuizParentComponent extends Component
         try {
             DB::beginTransaction();
 
+            if (!$this->quiz->canBeEditedBy())
+                abort(403);
+
             $this->quiz->update([
                 'title' => $this->title,
             ]);

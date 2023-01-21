@@ -1,9 +1,9 @@
 <div class="card m-auto mt-5 mb-5" style="width: 50rem;">
     <div class="m-4">
-            <x-livewire-input-text name="content" :errors="$errors" />
-            <input type="file" wire:model="image" />
-            <x-livewire-button method="update" name="Apply Update" />
+        <x-livewire-input-text name="content" :errors="$errors" />
+        <x-livewire-button method="update" name="Apply Update" />
     </div>
+    <input type="file" wire:model="image" class="mt-4" />
     <img src="{{$question->getImage()}}" alt="Question Image" width="300" height="300" class="rounded mt-5 mx-auto d-block" />
     <ol class="list-group mt-5">
         <x-simple-bar>

@@ -21,6 +21,7 @@ class Quiz extends Model
     protected $fillable = [
         'title',
         'author_id',
+        'owner_id',
         'correct_answer_id',
         'is_draft',
     ];
@@ -34,6 +35,11 @@ class Quiz extends Model
     public function answeredQuizzes()
     {
         return $this->hasMany(AnsweredQuiz::class);
+    }
+
+    public function owner ()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function questions()
@@ -77,10 +83,6 @@ class Quiz extends Model
 
     protected static function booted()
     {
-        static::saving(function ($quiz) {
-            if (!$quiz->canBeEditedBy())
-                abort(403);
-        });
         static::saved(function ($quiz) {
             // Delete quizzes cache after modifying a Quiz
             Cache::forget('play.index.allquizzes');
