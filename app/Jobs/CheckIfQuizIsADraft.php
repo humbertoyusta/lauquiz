@@ -45,7 +45,7 @@ class CheckIfQuizIsADraft implements ShouldQueue
         }
 
         // If some question has no correct answers, it is also a draft
-        if ($this->quiz->questions->pluck('correct_answers_questions')->search(0) === false) {
+        if ($this->quiz->questions->pluck('correct_answers_count')->search(0) !== false) {
             $isDraft = true;
         }
 
