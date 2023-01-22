@@ -28,7 +28,10 @@ class QuestionsController extends Controller
 
     public function store(QuestionRequest $request, Quiz $quiz)
     {
-        $question = Question::create([...$request->validated(), 'quiz_id' => $quiz->id]);
+        $question = Question::create([...collect($request->validated())->except(['image']), 'quiz_id' => $quiz->id]);
+
+        if ($request->has('image'))
+            $question->storeImage($request->file('image'));
 
         return QuestionResource::make($question);
     }
@@ -44,7 +47,10 @@ class QuestionsController extends Controller
     {
         $this->ensureQuestionIsInQuiz($question, $quiz);
 
-        $question->update($request->validated());
+        $question->update([...collect($request->validated())->except(['image'])]);
+
+        if ($request->has('image'))
+            $question->storeImage($request->file('image'));
 
         return QuestionResource::make($question);
     }
