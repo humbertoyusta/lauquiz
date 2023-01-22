@@ -15,7 +15,7 @@ class AnswersController extends Controller
 {
     public function __construct ()
     {
-        //$this->authorizeResource(Answer::class, 'answer');
+        $this->authorizeResource(Answer::class, 'answer');
     }
 
     public function index(Quiz $quiz, Question $question)
