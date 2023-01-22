@@ -29,15 +29,7 @@ class QuizRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'author_id' => 'required|integer|min:1',
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge([
-            'author_id' => auth()->id(),
-        ]);
     }
 
     public function failedValidation(Validator $validator)

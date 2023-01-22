@@ -13,6 +13,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^2.11",
         "mollie/laravel-mollie": "^2.21",
+        "rakutentech/laravel-request-docs": "^1.30",
         "spatie/laravel-backup": "^8.1",
         "spatie/laravel-ignition": "^1.6",
         "spatie/laravel-medialibrary": "^10.0.0",
