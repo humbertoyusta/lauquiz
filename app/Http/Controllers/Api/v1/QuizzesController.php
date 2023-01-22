@@ -19,7 +19,7 @@ class QuizzesController extends Controller
 
     public function index()
     {
-        $quizzes = Quiz::with('author')->paginate(self::PER_PAGE);
+        $quizzes = Quiz::with(['author', 'questions'])->paginate(self::PER_PAGE);
 
         return QuizResource::collection($quizzes);
     }
