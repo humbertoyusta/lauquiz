@@ -26,7 +26,7 @@ class QuizzesController extends Controller
 
     public function store(QuizRequest $request)
     {
-        $quiz = Quiz::create($request->validated());
+        $quiz = Quiz::create([...$request->validated(), 'author_id' => auth()->id()]);
 
         return QuizResource::make($quiz);
     }
@@ -38,7 +38,7 @@ class QuizzesController extends Controller
 
     public function update(QuizRequest $request, Quiz $quiz)
     {
-        $quiz->update($request->validated());
+        $quiz->update([...$request->validated()]);
 
         return QuizResource::make($quiz);
     }
