@@ -44,7 +44,7 @@ class QuestionPolicy
      */
     public function create(User $user)
     {
-        $quiz = Quiz::find(Route::input('quiz'));
+        $quiz = Route::input('quiz');
 
         return ($user->is_admin || ($user->id === $quiz->author_id));
     }
