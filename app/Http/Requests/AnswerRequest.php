@@ -7,12 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class QuestionRequest extends FormRequest
+class AnswerRequest extends FormRequest
 {
     public function rules()
     {
         return [
             'content' => 'required',
+            'is_correct' => 'required|boolean',
         ];
     }
 

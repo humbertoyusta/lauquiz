@@ -6,6 +6,7 @@ use App\Http\Controllers\BuyQuizController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\QuizzesController;
 use App\Http\Controllers\Api\v1\QuestionsController;
+use App\Http\Controllers\Api\v1\AnswersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +20,21 @@ use App\Http\Controllers\Api\v1\QuestionsController;
 */
 
 Route::prefix('v1')->group(function () {
+
     Route::post('login', [AuthController::class, 'login'])->name('api.login');
 
     Route::middleware(['auth:sanctum', 'ability:quizzes-edit'])->group(function () {
+
         Route::apiResource('quizzes', QuizzesController::class)->name('*', 'api.quizzes');
+
         Route::prefix('quizzes/{quiz}')->group(function () {
+
             Route::apiResource('questions', QuestionsController::class)->name('*', 'api.questions');
+
+            Route::prefix('questions/{question}')->group(function () {
+
+                Route::apiResource('answers', AnswersController::class)->name('*', 'api.answers');
+            });
         });
     });
 });
