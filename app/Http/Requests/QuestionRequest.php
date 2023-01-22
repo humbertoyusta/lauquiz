@@ -25,7 +25,6 @@ class QuestionRequest extends FormRequest
     {
         return [
             'content' => 'required',
-            'quiz_id' => 'required|integer|min:1',
         ];
     }
 }

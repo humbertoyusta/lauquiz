@@ -7,6 +7,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Route;
 
 class QuestionPolicy
 {
@@ -43,7 +44,7 @@ class QuestionPolicy
      */
     public function create(User $user)
     {
-        $quiz = Quiz::find(request()->input('quiz_id'));
+        $quiz = Quiz::find(Route::input('quiz'));
 
         return ($user->is_admin || ($user->id === $quiz->author_id));
     }
@@ -57,15 +58,7 @@ class QuestionPolicy
      */
     public function update(User $user, Question $question)
     {
-        $quiz = Quiz::findOrFail(request()->input('quiz_id'));
-
-        return (
-            $user->is_admin ||
-            (
-                ($user->id === $question->quiz->author_id) &&
-                ($user->id === $quiz->author_id)
-            )
-        );
+        return ($user->is_admin || ($user->id === $question->quiz->author_id));
     }
 
     /**

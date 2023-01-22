@@ -23,7 +23,9 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware(['auth:sanctum', 'ability:quizzes-edit'])->group(function () {
         Route::apiResource('quizzes', QuizzesController::class)->name('*', 'api.quizzes');
-        Route::apiResource('questions', QuestionsController::class)->name('*', 'api.questions');
+        Route::prefix('quizzes/{quiz}')->group(function () {
+            Route::apiResource('questions', QuestionsController::class)->name('*', 'api.questions');
+        });
     });
 });
 
