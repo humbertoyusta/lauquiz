@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuyQuizController;
+use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\QuizzesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,11 @@ use App\Http\Controllers\BuyQuizController;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('quizzes', \App\Http\Controllers\Api\v1\QuizzesController::class)->name('*', 'api.quizzes');
+    Route::post('login', [AuthController::class, 'login'])->name('api.login');
+
+    Route::middleware(['auth:sanctum', 'ability:quizzes-edit'])->group(function () {
+        Route::apiResource('quizzes', QuizzesController::class)->name('*', 'api.quizzes');
+    });
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

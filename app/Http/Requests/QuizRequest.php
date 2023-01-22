@@ -36,7 +36,7 @@ class QuizRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
-            'author_id' => 1,
+            'author_id' => auth()->id(),
         ]);
     }
 
