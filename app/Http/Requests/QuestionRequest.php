@@ -13,6 +13,7 @@ class QuestionRequest extends FormRequest
     {
         return [
             'content' => 'required',
+            'image' => 'nullable|image',
         ];
     }
 
