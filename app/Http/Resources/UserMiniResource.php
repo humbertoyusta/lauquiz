@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuizResource extends JsonResource
+class UserMiniResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,8 @@ class QuizResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'is_draft' => $this->is_draft,
-            'author' => UserMiniResource::make($this->author),
+            'name' => $this->name,
+            'email' => $this->email,
         ];
     }
 }

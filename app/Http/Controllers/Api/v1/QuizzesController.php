@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
 {
+    public const PER_PAGE = 5;
+
     public function __construct ()
     {
         $this->authorizeResource(Quiz::class, 'quiz');
@@ -17,7 +19,9 @@ class QuizzesController extends Controller
 
     public function index()
     {
-        return QuizResource::collection(Quiz::all());
+        $quizzes = Quiz::with('author')->paginate(self::PER_PAGE);
+
+        return QuizResource::collection($quizzes);
     }
 
     public function store(QuizRequest $request)
