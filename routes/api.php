@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuyQuizController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\QuizzesController;
+use App\Http\Controllers\Api\v1\QuestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware(['auth:sanctum', 'ability:quizzes-edit'])->group(function () {
         Route::apiResource('quizzes', QuizzesController::class)->name('*', 'api.quizzes');
+        Route::apiResource('questions', QuestionsController::class)->name('*', 'api.questions');
     });
 });
 
