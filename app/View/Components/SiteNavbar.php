@@ -33,6 +33,10 @@ class SiteNavbar extends Component
                 'title' => 'Weather',
                 'url' => route('weather'),
             ],
+            [
+                'title' => 'Api Docs',
+                'url' => '/request-docs',
+            ],
         ];
 
         if (Auth::user() && Auth::user()->is_admin) {
