@@ -10,11 +10,6 @@ class WelcomePageTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testWelcomePage()
     {
         // Act
