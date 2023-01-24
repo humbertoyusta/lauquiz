@@ -31,6 +31,25 @@ class QuizzesFormsTest extends TestCase
         $this->assertCount(3, $this->user->quizzes->last()->tags);
     }
 
+    public function testCreateQuizFailTitleIsRequired ()
+    {
+        // Act
+        $response = $this->actingAs($this->user)->post(route('quizzes.store'), [
+            'title' => "New Quiz Hoogh",
+            'tags' => 'new, Brand, state-less',
+        ]);
+
+        // Assert
+        $response->assertRedirect(route('quizzes.edit', ['quiz' => Quiz::all()->last()->id]));
+
+        $this->assertDatabaseHas('quizzes', [
+            'title' => "New Quiz Hoogh",
+            'author_id' => $this->user->id,
+        ]);
+
+        $this->assertCount(3, $this->user->quizzes->last()->tags);
+    }
+
     public function testUpdateQuizSuccessful ()
     {
         // Arrange
