@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Question;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,8 +18,13 @@ class AnswerFactory extends Factory
      */
     public function definition()
     {
+        if (Question::count() >= DatabaseSeeder::QUESTIONS_AMOUNT)
+            $question_id = rand(1, DatabaseSeeder::QUESTIONS_AMOUNT);
+        else
+            $question_id = Question::factory()->create()->id;
+
         return [
-            'question_id' => rand(1, DatabaseSeeder::QUESTIONS_AMOUNT),
+            'question_id' => $question_id,
             'content' => fake()->text(),
             'is_correct' => fake()->boolean(50),
         ];

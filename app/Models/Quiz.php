@@ -65,7 +65,7 @@ class Quiz extends Model
         $user = ($id !== null) ? User::findOrFail($id) : Auth::user();
 
         // Admins or owners can edit
-        return $user->is_admin || $user->id === $this->author_id;
+        return $user->is_admin || $user->id == $this->author_id;
     }
 
     public function syncTags(string $tagNamesCommaSeparated): void
