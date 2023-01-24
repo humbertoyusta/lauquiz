@@ -44,7 +44,7 @@ class QuizzesController extends Controller
     {
         $quiz = $this->quizzesService->save($request);
 
-        return view('quizzes.edit', ['quiz' => $quiz]);
+        return redirect(route('quizzes.edit', ['quiz' => $quiz]));
     }
 
     /**
@@ -90,7 +90,7 @@ class QuizzesController extends Controller
     {
         $this->quizzesService->save($request, $id);
 
-        return view('quizzes.edit', ['quiz' => $this->quizzesService->getQuizwithQuestions($id)]);
+        return redirect(route('quizzes.edit', ['quiz' => $this->quizzesService->getQuizwithQuestions($id)]));
     }
 
     /**
