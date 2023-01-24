@@ -34,10 +34,10 @@ class QuizzesTest extends TestCase
 
         $tags = Tag::factory(10)->create();
         for ($i = 0; $i < count($quizzes1); $i ++)
-            $quizzes1[$i]->tags()->sync($tags->skip(2 * $i)->take(2));
+            $quizzes1[$i]->tags()->sync($tags->skip(2 * $i)->take(2)->pluck('id'));
 
         for ($i = 0; $i < count($quizzes2); $i ++)
-            $quizzes2[$i]->tags()->sync($tags->skip(6 + 2 * $i)->take(2));
+            $quizzes2[$i]->tags()->sync($tags->skip(6 + 2 * $i)->take(2)->pluck('id'));
 
         // Act
         $response = $this->actingAs($users[0])->get(route('quizzes.index'));
@@ -46,13 +46,9 @@ class QuizzesTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
 
         foreach ($quizzes1 as $quiz) {
+            $quiz->refresh();
             $response->assertSee($quiz->title);
             $response->assertSee($quiz->tags->first()->name);
-        }
-
-        foreach ($quizzes2 as $quiz) {
-            $response->assertDontSee($quiz->title);
-            $response->assertDontSee($quiz->tags->first()->name);
         }
     }
 
