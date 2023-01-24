@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Interfaces\WeatherApiInterface;
 use App\Services\WeatherForecaService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
+        Model::preventsAccessingMissingAttributes(! $this->app->isProduction());
+
         $this->app->singleton(WeatherApiInterface::class, WeatherForecaService::class);
     }
 }
