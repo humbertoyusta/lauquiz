@@ -50,10 +50,6 @@ class QuestionParentComponent extends Component
             'content' => $this->content,
         ]);
 
-        if ($this->image) {
-            $this->question->storeImage($this->image);
-        }
-
         $this->question->refresh();
     }
 
