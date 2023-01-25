@@ -35,7 +35,7 @@ class SiteNavbar extends Component
             ],
             [
                 'title' => 'Api Docs',
-                'url' => '/request-docs',
+                'url' => '/api/docs',
             ],
         ];
 
